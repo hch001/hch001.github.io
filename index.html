@@ -5,26 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="Hugo 0.75.1" />
 
-  <title>My New Hugo Site</title>
+  <title>我的笔记</title>
 
-  <meta name="description" content="" />
+  <meta name="description" content="脑子不够用了，希望这个能充当大脑外存吧" />
 
   
 
-<meta itemprop="name" content="My New Hugo Site">
-<meta itemprop="description" content="">
+<meta itemprop="name" content="我的笔记">
+<meta itemprop="description" content="脑子不够用了，希望这个能充当大脑外存吧">
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="My New Hugo Site"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="我的笔记"/>
+<meta name="twitter:description" content="脑子不够用了，希望这个能充当大脑外存吧"/>
 
 
-<meta property="og:title" content="My New Hugo Site" />
-<meta property="og:description" content="" />
+<meta property="og:title" content="我的笔记" />
+<meta property="og:description" content="脑子不够用了，希望这个能充当大脑外存吧" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://hch001.github.io/" />
-
+<meta property="og:updated_time" content="2020-06-04T01:18:09+08:00" />
 
 
 
@@ -35,20 +35,21 @@
     {
       "@type":"Person",
       "@id": "https://hch001.github.io/#author",
-      "name":  null ,
+      "name": "Huang Chenhan",
       "image": {
         "@type":"ImageObject",
         
+        "url": "https://hch001.github.io/images/profile.jpeg"
         
       },
-      "description":  null 
+      "description": "脑子不够用了，希望这个能充当大脑外存吧"
     },
     {
       "@type": "WebSite",
       "@id": "https://hch001.github.io/#website",
       "url": "https://hch001.github.io/",
-      "name": "My New Hugo Site",
-      "description":  null ,
+      "name": "我的笔记",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
       "publisher": {
         "@id": "https://hch001.github.io/#author"
       },
@@ -58,14 +59,15 @@
       "@type": "WebPage",
       "@id": "https://hch001.github.io/#webpage",
       "url": "https://hch001.github.io/",
-      "name": "My New Hugo Site",
+      "name": "我的笔记",
       "isPartOf": {
         "@id": "https://hch001.github.io/#website"
       },
       "about": {
          "@id": "https://hch001.github.io/#author"
       },
-      "description": ,
+      "dateModified": "2020-06-04T01:18:09+08:00",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
       "inLanguage": "en-us",
       "potentialAction": [
         {
@@ -98,7 +100,7 @@
   
 
 
-  
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
 
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
@@ -115,7 +117,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="https://hch001.github.io/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+  <link href="https://hch001.github.io/index.xml" rel="alternate" type="application/rss+xml" title="我的笔记" />
   </head>
 <body>
   <aside class="sidebar">
@@ -123,10 +125,18 @@
     <div class="sidebar-about">
       
         
+        <div class="author-image">
+          <a href="https://hch001.github.io/">
+            <img src="/images/profile.jpeg" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
       
 
-      <h1>My New Hugo Site</h1>
+      <h1>我的笔记</h1>
 
+      
+      <p class="lead">脑子不够用了，希望这个能充当大脑外存吧</p>
       
     </div>
 
@@ -135,11 +145,19 @@
         <li>
           <a href="https://hch001.github.io/">Home</a>
         </li>
-        
+        <li>
+          <a href="/%E5%85%B6%E4%BB%96/">其他</a>
+        </li><li>
+          <a href="/%E5%90%8E%E7%AB%AF/">后端</a>
+        </li>
       </ul>
     </nav>
 
     <section class="social-icons">
+      
+      <a href="https://github.com/hch001" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
       
     </section>
   </div>
@@ -148,6 +166,95 @@
 
   <main class="content container">
   <div class="posts">
+      <article class="post">
+        <h1 class="post-title">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/">neo4j批量csv数据高速导入(多种关系)</a>
+        </h1>
+
+        <div class="post-date">
+          <time datetime="2020-06-04T01:18:09&#43;0800">Jun 4, 2020</time> &middot; 2 min read
+        </div>
+
+        <div>
+          Neo4j导入较小的数据 一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入
+1. mysql 通过 csv 文件导入 neo4j  先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)  select * from film into outfile &#34;E:/flim.
+        </div>
+
+        <div class="read-more-link">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/">Read More</a>
+        </div>
+      </article>
+      <article class="post">
+        <h1 class="post-title">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/">SQL--Neo4j(基础用法)</a>
+        </h1>
+
+        <div class="post-date">
+          <time datetime="2020-05-28T17:07:40&#43;0800">May 28, 2020</time> &middot; 3 min read
+        </div>
+
+        <div>
+          配置 windows配置neo4j 在windows环境中配置Neo4j
+语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作
+创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:&#39;Lee&#39;, age:20}),(:Person {name:&#39;David&#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:&#39;Lee&#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a.
+        </div>
+
+        <div class="read-more-link">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/">Read More</a>
+        </div>
+      </article>
+      <article class="post">
+        <h1 class="post-title">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7-you-get/">实用工具--You-get简单使用</a>
+        </h1>
+
+        <div class="post-date">
+          <time datetime="2020-05-14T16:21:14&#43;0800">May 14, 2020</time> &middot; 1 min read
+        </div>
+
+        <div>
+          简介 you-get you-get 是github上的一个项目，是一个命令行程序，方便我们进行网络的媒体资源的下载
+使用 pip 下载 you-get pip install you-get # 应该提前安装有python，这里用的python3 安装 FFmpeg 依赖 这里用的是windows10，可以直接去官网下载 官网链接
+        </div>
+
+        <div class="read-more-link">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7-you-get/">Read More</a>
+        </div>
+      </article>
+      <article class="post">
+        <h1 class="post-title">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/hugo/">hugo</a>
+        </h1>
+
+        <div class="post-date">
+          <time datetime="2020-04-26T02:51:25&#43;0800">Apr 26, 2020</time> &middot; 1 min read
+        </div>
+
+        <div>
+          hugo --theme=m10c --baseUrl=&#34;https://hch001.github.io/&#34; --buildDrafts // 编译生成静态文件 --baseUrl=Url // 指定了网页的css和js等文件的路径前缀 hugo server -D // 在本地启动server  
+        </div>
+
+        <div class="read-more-link">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/hugo/">Read More</a>
+        </div>
+      </article>
+      <article class="post">
+        <h1 class="post-title">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">Git--基础学习(版本分支)</a>
+        </h1>
+
+        <div class="post-date">
+          <time datetime="2020-04-25T17:58:50&#43;0800">Apr 25, 2020</time> &middot; 2 min read
+        </div>
+
+        <div>
+          Git的简单的基础命令   配置信息  git --version  git config --global user.
+        </div>
+
+        <div class="read-more-link">
+          <a href="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">Read More</a>
+        </div>
+      </article>
   </div>
 
   
@@ -158,7 +265,7 @@
   <footer>
   <div>
     <p>
-      &copy;  2021
+      &copy; Huang Chenhan 2021
 
       
 
@@ -176,7 +283,7 @@
   <script src="/js/jquery.min.js"></script>
   <script src="/js/soho.js"></script>
 
-  
+  <script src="/js/blog.js"></script>
 
   
 </body>

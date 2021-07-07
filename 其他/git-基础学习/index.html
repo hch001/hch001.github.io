@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.75.1" />
+
+  <title>Git--基础学习(版本分支) &middot; 我的笔记</title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="Git--基础学习(版本分支)">
+<meta itemprop="description" content="Git的简单的基础命令   配置信息  git --version  git config --global user.">
+<meta itemprop="datePublished" content="2020-04-25T17:58:50+08:00" />
+<meta itemprop="dateModified" content="2020-04-25T17:58:50+08:00" />
+<meta itemprop="wordCount" content="314">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git--基础学习(版本分支)"/>
+<meta name="twitter:description" content="Git的简单的基础命令   配置信息  git --version  git config --global user."/>
+
+
+<meta property="og:title" content="Git--基础学习(版本分支)" />
+<meta property="og:description" content="Git的简单的基础命令   配置信息  git --version  git config --global user." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" />
+<meta property="article:published_time" content="2020-04-25T17:58:50+08:00" />
+<meta property="article:modified_time" content="2020-04-25T17:58:50+08:00" />
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://hch001.github.io/#author",
+      "name": "Huang Chenhan",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://hch001.github.io/images/profile.jpeg"
+        
+      },
+      "description": "脑子不够用了，希望这个能充当大脑外存吧"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://hch001.github.io/#website",
+      "url": "https://hch001.github.io/",
+      "name": "我的笔记",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "inLanguage": "en-us"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/#webpage",
+      "url": "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/",
+      "name": "Git--基础学习(版本分支)",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/#website"
+      },
+      "about": {
+         "@id": "https://hch001.github.io/#author"
+      },
+      "datePublished": "2020-04-25T17:58:50+08:00",
+      "dateModified": "2020-04-25T17:58:50+08:00",
+      "description": "Git的简单的基础命令   配置信息  git --version  git config --global user.",
+      "inLanguage": "en-us",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/#webpage"
+      },
+      "headline": "Git--基础学习(版本分支)",
+      "datePublished": "2020-04-25T17:58:50+08:00",
+      "dateModified": "2020-04-25T17:58:50+08:00",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "keywords": [
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en-us",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://hch001.github.io/">
+            <img src="/images/profile.jpeg" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1>我的笔记</h1>
+
+      
+      <p class="lead">脑子不够用了，希望这个能充当大脑外存吧</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://hch001.github.io/">Home</a>
+        </li>
+        <li>
+          <a href="/%E5%85%B6%E4%BB%96/">其他</a>
+        </li><li>
+          <a href="/%E5%90%8E%E7%AB%AF/">后端</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="https://github.com/hch001" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">Git--基础学习(版本分支)</h1>
+  
+
+  <div class="post-date">
+    <time datetime="2020-04-25T17:58:50&#43;0800">Apr 25, 2020</time> <span class="readtime">&middot; 2 min read</span>
+  </div>
+
+  <div>
+  <h2 id="git的简单的基础命令"><strong>Git的简单的基础命令</strong></h2>
+<ul>
+<li>
+<h3 id="配置信息">配置信息</h3>
+<ul>
+<li><code>git --version </code></li>
+<li><code>git config --global user.name </code>  // 查看用户名</li>
+<li><code>git config --global user.email </code> // 查看邮箱</li>
+<li>在上面两个命令的结尾加上变量即可配置</li>
+</ul>
+</li>
+<li>
+<h3 id="与linux类似的部分">与Linux类似的部分</h3>
+<ul>
+<li><code>cat</code></li>
+<li><code>rm</code></li>
+<li><code>ls</code></li>
+<li><code>echo &quot;11111&quot; &gt; file 或  &gt;&gt; file</code></li>
+<li><code>cd</code></li>
+<li><code>mkdir</code></li>
+</ul>
+</li>
+<li>
+<h3 id="git常用命令">Git常用命令</h3>
+<ul>
+<li><code>git init </code> // 初始化一个仓库</li>
+<li><code>git status </code> // 查看当前工作树的状态，可以查看分支合并情况，文件修改情况等</li>
+<li><code>git add file1 file2 </code> // 添加到暂存区</li>
+<li><code>git commit -m &quot;remarks&quot; </code> // 合并到本地版本</li>
+<li><code>git remote add origin &quot;repository&quot; </code> // 关联本地库到远程库
+<ul>
+<li><code>origin </code> // 指的是远程仓库</li>
+</ul>
+</li>
+<li><code>git pull </code> // 更新本地分支与远程同步</li>
+<li><code>git push &lt;远程主机名&gt; &lt;本地分支名&gt;  &lt;远程分支名&gt; </code>
+<ul>
+<li><code>git push origin master </code> // 远程分支被省略将会把本地的master分支推送到与之相关联的远程分支 如果没有则被新建</li>
+<li><code>git push origin </code> ：&lt;远程分支名&gt; // <code>:</code>代表省略，将空的本地分支推送到远程分支，即删除某个远程分支</li>
+<li>使用<code>refs/for/&lt;远程分支名&gt;</code> 说明提交之后还需要 <strong>code review</strong> 才能进行 <strong>merge</strong></li>
+<li>在本地分支有追踪关系的远程分支(在本地分支只对应一个远程分支时)，可以省略用 <code>git push (origin)</code></li>
+<li><code>git push -u origin master -f </code> // <code>-f</code> 强制推送 <code>-u</code> 默认主机</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="git一些概念理解-参考-git使用教程">Git一些概念理解 (参考: <a href="https://blog.csdn.net/YJG7D314/article/details/104551896">git使用教程</a>)</h2>
+<p><img src="https://s1.ax1x.com/2020/05/26/tPkQX9.png" alt="001.png"></p>
+<ul>
+<li>
+<p>版本库(.git)</p>
+<ul>
+<li>如图所示，每次输入<code>git commit -m &quot;备注信息&quot;</code> 提交即一个版本</li>
+<li>每个分支都有一个当前的版本</li>
+<li>各个版本之间的关系可以一个双向链表()，HEAD 指针指向当前的分支</li>
+<li>使用 <code>git log</code> 可以查看所有的分支。当前分支的最后会有一个 <code>(HEAD -&gt; 分支名)</code> 的提示</li>
+</ul>
+</li>
+<li>
+<p>分支</p>
+<ul>
+<li>我理解的就像上面所说的版本之间象一个链表，分支代表链表的一条分支</li>
+<li>刚创建时会自动生成master分支（主分支）</li>
+<li>多个版本之间能合并，合并即从分支合并到master分支（主分支），合并成功后将分支删除。</li>
+<li>合并要先切换到master分支，然后输入 <code>git merge (--no-ff -m &quot;备注&quot; )分支名</code></li>
+<li>合并产生冲突就修改，先用 <code>git status </code>查看出错位置</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://s1.ax1x.com/2020/04/28/J5GPyt.png" alt="002.png"><br>
+<img src="https://s1.ax1x.com/2020/04/28/J5GCQI.png" alt="003.png"><br>
+<img src="https://s1.ax1x.com/2020/04/28/J5G9SA.png" alt="004.png"></p>
+<ul>
+<li>
+<h2 id="进阶命令">进阶命令</h2>
+<ul>
+<li><code>git diff / git diff HEAD -- file1 </code> // 前者比较所有文件与当前分支的区别 或者比较特定文件的区别</li>
+<li><code>git reset HEAD - file1 </code> // 将进入file1从暂存区移除</li>
+<li><code>git branch (-r)  </code> // 查看当前分支对应的远程分支， <code>r</code> 应该代表的是 remote</li>
+<li><code>git branch -d 分支名 </code> // 删除分支</li>
+<li><code>git log </code> // 查看HEAD(最新版本及之前的)所有版本 如果从版本10回退到版本9之后 <code>log</code> 显示的只有版本1-9，版本10则不在其中，要想还原到版本10，需要用到 <code>git reset --hard 版本号</code> ,而版本号通过 <code>git reflog </code> 可以查到
+<ul>
+<li><code>git log --pretty=oneline </code> // 显示在每行显示一个版本</li>
+<li><code>git log --graph --pretty-oneline </code> 可以查看分支的合并情况</li>
+</ul>
+</li>
+<li><code>git reset --hard HEAD~n </code> // 回退当前版本的前n(n&gt;=1)个版本 HEAD代表当前最新版本</li>
+<li><code>git reset --hard 版本号 </code> // 回退到某个版本</li>
+<li><code>git reflog </code> // 查询操作记录 可以依靠这个来看不同版本的版本号</li>
+<li><code>git checkout </code>
+<ul>
+<li><code>git checkout 分支名 </code> // 切换到该分支</li>
+<li><code>git checkout -- file1 </code> // 放弃file1在文件区的改动</li>
+</ul>
+</li>
+<li><code>git checkout -b 分支名 </code> // 创建一个新的分支</li>
+<li><code>git merge 从分支名 </code> // 需要在主分支下进行，输入该命令合并到主分支
+<ul>
+<li><code>git merge (--no-ff -m &quot;备注&quot;) 从分支名 </code> // 合并时禁用快速合并(Fast Forward)，会合并过程中会产生一个新的commit，需要备注</li>
+</ul>
+</li>
+<li><code>git stash </code> // 保存现在的工作现场
+<ul>
+<li><code>git stash list </code> // 输出所有保存的现场</li>
+<li><code>git stash pop </code> // 恢复所保存的现场</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见错误">常见错误</h2>
+<ul>
+<li>提交时出现 <code>LF will be replaced by CRLF in </code>
+<blockquote>
+<p>windows 下的换行符是 <code>CRLF，而</code> linux 下的 <code>LF</code><br>
+解决方法：<code>git config --global core.autocrlf false</code></p>
+</blockquote>
+</li>
+<li><strong><code>git log </code></strong> 中文备注乱码 <a href="https://blog.csdn.net/sunjinshengli/article/details/81283009">参考2</a>
+<blockquote>
+<p><code>git config --global core.quotepath false</code><br>
+<code>git config --global gui.encoding utf-8</code><br>
+<code>git config --global i18n.commit.encoding utf-8</code><br>
+<code>git config --global i18n.logoutputencoding utf-8</code></p>
+</blockquote>
+<ul>
+<li>添加新的环境变量 <strong><code> LESSCHARSET=utf-8</code></strong><br>
+<img src="https://s1.ax1x.com/2020/04/28/J5GSWd.png" alt="006.png"></li>
+<li>修改之后乱码消失<br>
+<img src="https://s1.ax1x.com/2020/04/28/J5GAw8.png" alt="007.png"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="参考">参考</h2>
+<p>git使用教程: <a href="https://blog.csdn.net/YJG7D314/article/details/104551896">https://blog.csdn.net/YJG7D314/article/details/104551896</a><br>
+git中文乱码解决方案: <a href="https://blog.csdn.net/sunjinshengli/article/details/81283009">https://blog.csdn.net/sunjinshengli/article/details/81283009</a></p>
+
+  </div>
+
+  
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+     data-text="Git--基础学习(版本分支)"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+     data-text="Git--基础学习(版本分支)"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+     data-text="Git--基础学习(版本分支)"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+     data-text="Git--基础学习(版本分支)"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/git-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"
+     data-text="Git--基础学习(版本分支)"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; Huang Chenhan 2021
+
+      
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>

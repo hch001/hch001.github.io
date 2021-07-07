@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.75.1" />
+
+  <title>SQL--Neo4j(基础用法) &middot; 我的笔记</title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="SQL--Neo4j(基础用法)">
+<meta itemprop="description" content="配置 windows配置neo4j 在windows环境中配置Neo4j
+语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作
+创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:&#39;Lee&#39;, age:20}),(:Person {name:&#39;David&#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:&#39;Lee&#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a.">
+<meta itemprop="datePublished" content="2020-05-28T17:07:40+08:00" />
+<meta itemprop="dateModified" content="2020-05-28T17:07:40+08:00" />
+<meta itemprop="wordCount" content="621">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SQL--Neo4j(基础用法)"/>
+<meta name="twitter:description" content="配置 windows配置neo4j 在windows环境中配置Neo4j
+语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作
+创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:&#39;Lee&#39;, age:20}),(:Person {name:&#39;David&#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:&#39;Lee&#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a."/>
+
+
+<meta property="og:title" content="SQL--Neo4j(基础用法)" />
+<meta property="og:description" content="配置 windows配置neo4j 在windows环境中配置Neo4j
+语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作
+创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:&#39;Lee&#39;, age:20}),(:Person {name:&#39;David&#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:&#39;Lee&#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/" />
+<meta property="article:published_time" content="2020-05-28T17:07:40+08:00" />
+<meta property="article:modified_time" content="2020-05-28T17:07:40+08:00" />
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://hch001.github.io/#author",
+      "name": "Huang Chenhan",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://hch001.github.io/images/profile.jpeg"
+        
+      },
+      "description": "脑子不够用了，希望这个能充当大脑外存吧"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://hch001.github.io/#website",
+      "url": "https://hch001.github.io/",
+      "name": "我的笔记",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "inLanguage": "en-us"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/#webpage",
+      "url": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/",
+      "name": "SQL--Neo4j(基础用法)",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/#website"
+      },
+      "about": {
+         "@id": "https://hch001.github.io/#author"
+      },
+      "datePublished": "2020-05-28T17:07:40+08:00",
+      "dateModified": "2020-05-28T17:07:40+08:00",
+      "description": "配置 windows配置neo4j 在windows环境中配置Neo4j\n语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作\n创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:\u0026#39;Lee\u0026#39;, age:20}),(:Person {name:\u0026#39;David\u0026#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:\u0026#39;Lee\u0026#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a.",
+      "inLanguage": "en-us",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/#webpage"
+      },
+      "headline": "SQL--Neo4j(基础用法)",
+      "datePublished": "2020-05-28T17:07:40+08:00",
+      "dateModified": "2020-05-28T17:07:40+08:00",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "keywords": [
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en-us",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://hch001.github.io/">
+            <img src="/images/profile.jpeg" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1>我的笔记</h1>
+
+      
+      <p class="lead">脑子不够用了，希望这个能充当大脑外存吧</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://hch001.github.io/">Home</a>
+        </li>
+        <li>
+          <a href="/%E5%85%B6%E4%BB%96/">其他</a>
+        </li><li>
+          <a href="/%E5%90%8E%E7%AB%AF/">后端</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="https://github.com/hch001" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">SQL--Neo4j(基础用法)</h1>
+  
+
+  <div class="post-date">
+    <time datetime="2020-05-28T17:07:40&#43;0800">May 28, 2020</time> <span class="readtime">&middot; 3 min read</span>
+  </div>
+
+  <div>
+  <h2 id="配置">配置</h2>
+<h3 id="windows配置neo4j">windows配置neo4j</h3>
+<p><a href="https://www.cnblogs.com/jpfss/p/10874303.html">在windows环境中配置Neo4j</a></p>
+<h2 id="语法">语法</h2>
+<p>在windows系统中执行，neo4j.bat console，就可以在网页中进行操作</p>
+<h3 id="创建删除节点">创建/删除节点</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> (n:Label1:Label2:Label3 <span style="color:#960050;background-color:#1e0010">{</span>attr1:value1, attr2:value2<span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#75715e">-- n 代表别名如果不需要引用可省略
+</span><span style="color:#75715e">-- label 也可以省略
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 例1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> (:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span>, age:<span style="color:#ae81ff">20</span><span style="color:#960050;background-color:#1e0010">}</span>),(:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;David&#39;</span>, age:<span style="color:#ae81ff">20</span><span style="color:#960050;background-color:#1e0010">}</span>)
+<span style="color:#75715e">-- 使用逗号创建多个节点
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (p:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>)
+detach <span style="color:#66d9ef">delete</span> p
+</code></pre></div><h3 id="创建删除关系">创建/删除关系</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person),(b:Person)
+<span style="color:#66d9ef">where</span> a.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Lee&#39;</span> <span style="color:#66d9ef">and</span> b.name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;David&#39;</span>
+<span style="color:#66d9ef">create</span> (a)<span style="color:#f92672">-</span>[r:IS_FRIEND_OF <span style="color:#960050;background-color:#1e0010">{</span>attr1:value1,attr2:value2<span style="color:#960050;background-color:#1e0010">}</span>]<span style="color:#f92672">-&gt;</span>(b)
+<span style="color:#75715e">-- 创建的关系是单向的
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span> (a:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>),(b:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;David&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>)
+<span style="color:#66d9ef">create</span> (a)<span style="color:#f92672">-</span>[r:IS_FRIEND_OF <span style="color:#960050;background-color:#1e0010">{</span>attr1:value1,attr2:value2<span style="color:#960050;background-color:#1e0010">}</span>]<span style="color:#f92672">-&gt;</span>(b)
+
+<span style="color:#75715e">-- 删除关系
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (a:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>)<span style="color:#f92672">-</span>[r:IS_FRIEND_OF]<span style="color:#f92672">-&gt;</span>(b:Person <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;David&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>)
+<span style="color:#66d9ef">delete</span> r
+</code></pre></div><h3 id="添加删除标签">添加/删除标签</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span>(n <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+<span style="color:#66d9ef">set</span> n:Person :Worker <span style="color:#75715e">-- 为节点添加两个标签
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span>(n <span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+remove n:Person <span style="color:#75715e">-- 删除节点的标签
+</span></code></pre></div><h3 id="新增修改删除节点属性">新增/修改/删除节点属性</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span>(n:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+<span style="color:#66d9ef">set</span> n<span style="color:#f92672">+=</span><span style="color:#960050;background-color:#1e0010">{</span>age:<span style="color:#ae81ff">30</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#75715e">-- 增加属性age
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span>(n:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+<span style="color:#66d9ef">set</span> n.age<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span> <span style="color:#75715e">-- 修改节点属性age
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span>(n:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+<span style="color:#66d9ef">set</span> n<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">{</span>age:<span style="color:#ae81ff">20</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#75715e">-- 替换节点，覆盖掉原有的
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span>(n:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#39;Lee&#39;</span><span style="color:#960050;background-color:#1e0010">}</span>) 
+<span style="color:#66d9ef">where</span> ...  
+remove n.age <span style="color:#75715e">-- 删除一个属性
+</span></code></pre></div><h3 id="查看创建删除索引">查看/创建/删除索引</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">index</span> <span style="color:#66d9ef">on</span> :Person(name) <span style="color:#75715e">-- 创建索引
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">index</span> <span style="color:#66d9ef">on</span> :Person(name) <span style="color:#75715e">-- 删除索引
+</span><span style="color:#75715e"></span>
+:<span style="color:#66d9ef">schema</span> <span style="color:#75715e">-- 输出索引
+</span></code></pre></div><h3 id="查询">查询</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person)
+<span style="color:#66d9ef">where</span> a.age<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">distinct</span>(a) <span style="color:#66d9ef">as</span> babies 
+<span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">asc</span><span style="color:#f92672">/</span><span style="color:#66d9ef">desc</span>  <span style="color:#75715e">-- asc是默认的
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span> (a:Person)<span style="color:#f92672">-</span>[:IS_FRIEND_OF]<span style="color:#f92672">-</span>(b:Person) <span style="color:#75715e">-- 这里无箭头说明a是b的朋友或者b是a的朋友
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">where</span> a.name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Lee&#39;</span>
+<span style="color:#66d9ef">return</span> a
+
+<span style="color:#75715e">-- 使用匿名以及多个匹配规则
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (a:Person)<span style="color:#f92672">-</span>[:IS_FRIEND_OF]<span style="color:#f92672">-</span>()<span style="color:#f92672">-</span>[:HAS_SEEN]<span style="color:#f92672">-&gt;</span>(movie) ,
+(a)<span style="color:#f92672">-</span>[:HAS_SEEN]<span style="color:#f92672">-&gt;</span>(movie)
+<span style="color:#66d9ef">return</span> movie
+</code></pre></div><h3 id="条件">条件</h3>
+<ul>
+<li>NOT</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> ...
+<span style="color:#66d9ef">where</span> <span style="color:#66d9ef">NOT</span> ...
+</code></pre></div><ul>
+<li>AND(逻辑与) |(逻辑或)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 使用了逻辑或
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (a:Person<span style="color:#960050;background-color:#1e0010">{</span>name:<span style="color:#e6db74">&#34;lily&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)<span style="color:#f92672">-</span>[:IS_FRIEND_OF <span style="color:#f92672">|</span> :SAME_AGE]<span style="color:#f92672">-&gt;</span>(b:Person)
+<span style="color:#66d9ef">return</span> b
+
+<span style="color:#75715e">-- 使用逻辑与
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (a:Person)
+<span style="color:#66d9ef">where</span> a.age <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">18</span> <span style="color:#66d9ef">and</span> a.name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lily&#34;</span>
+<span style="color:#66d9ef">return</span> a 
+</code></pre></div><ul>
+<li>UNION</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person)  <span style="color:#66d9ef">where</span>  n.age<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>  <span style="color:#66d9ef">return</span> a.name <span style="color:#66d9ef">as</span> name
+<span style="color:#66d9ef">Union</span> <span style="color:#66d9ef">all</span> <span style="color:#75715e">-- (不去重)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (b:Person) <span style="color:#66d9ef">where</span>  n.age<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">80</span>  <span style="color:#66d9ef">return</span>  b.name <span style="color:#66d9ef">as</span> name
+<span style="color:#75715e">-- 这里返回值的命名要相同
+</span></code></pre></div><ul>
+<li>IN</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person) 
+<span style="color:#66d9ef">where</span> a.age <span style="color:#66d9ef">IN</span> [<span style="color:#ae81ff">40</span>,<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">60</span>,<span style="color:#ae81ff">70</span>,<span style="color:#ae81ff">80</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">100</span>]
+<span style="color:#66d9ef">return</span> a.name 
+</code></pre></div><ul>
+<li>Limit 与 skip</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- Limit 代表一页的数据量
+</span><span style="color:#75715e">-- skip  代表跳过的数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> ...
+<span style="color:#66d9ef">return</span> ...
+skip <span style="color:#ae81ff">20</span>
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>
+<span style="color:#75715e">-- 跳过了前20个匹配的数据，返回第21-20个
+</span></code></pre></div><ul>
+<li>Starts with / End withs / Contains</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person) 
+<span style="color:#66d9ef">where</span> a.name starts<span style="color:#f92672">/</span>ends <span style="color:#66d9ef">with</span> <span style="color:#e6db74">&#39;L&#39;</span> <span style="color:#75715e">-- 以L开头或者结尾的名字
+</span><span style="color:#75715e">-- a.name contains &#39;L&#39; 名字中包含了L
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> a.name <span style="color:#66d9ef">as</span> name
+</code></pre></div><ul>
+<li>With</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- With 将一个语句的结果作为另一个语句的输入
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MATCH</span> (a:Person)<span style="color:#f92672">-</span>[:IS_FRIEND_OF]<span style="color:#f92672">-&gt;</span>(b:Person)<span style="color:#f92672">-</span>[:HAS_SEEN]<span style="color:#f92672">-&gt;</span>(<span style="color:#66d9ef">c</span>)
+<span style="color:#66d9ef">where</span> id(a) <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+<span style="color:#66d9ef">with</span> <span style="color:#66d9ef">c</span>, b <span style="color:#66d9ef">as</span> friends  <span style="color:#75715e">-- 将上一条语句的c和b作为输入
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">where</span> friends.age <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">18</span>
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">c</span>.title
+</code></pre></div><ul>
+<li>正则表达式
+<ul>
+<li>=~ 开启</li>
+<li>(?i) 忽略大小写</li>
+<li>(?m) 多行</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (p:Person)
+<span style="color:#66d9ef">where</span> p.name <span style="color:#f92672">=~</span> <span style="color:#e6db74">&#39;(?i)L.*&#39;</span> <span style="color:#75715e">-- 忽略大小写，匹配以L开头的名字
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> p.name
+</code></pre></div><h3 id="深度匹配">深度匹配</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person)<span style="color:#f92672">-</span>[:IS_FRIEND_OF<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span>..<span style="color:#ae81ff">2</span>]<span style="color:#f92672">-&gt;</span>(b) <span style="color:#66d9ef">return</span> b <span style="color:#75715e">-- 深度1到2
+</span></code></pre></div><h3 id="函数">函数</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数名</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">用法</th>
+<th style="text-align:center">输出/注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">type(relation)</td>
+<td style="text-align:center">输出<strong>关系</strong>的类型</td>
+<td style="text-align:center">MATCH(a:Person)-[r]-&gt;() return distinct type(r)</td>
+<td style="text-align:center">&ldquo;IS_FRIEND_OF&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:center">id(relation | node)</td>
+<td style="text-align:center">输出id编号，适用于节点和关系</td>
+<td style="text-align:center">MATCH (p) where id(p) = 1 return p.name</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">exists()</td>
+<td style="text-align:center">判断模式是否在图中，属性是否在节点和关系中</td>
+<td style="text-align:center">MATCH (a:Person) where exists(a.age) return avg(a.age)</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">all(&hellip;)</td>
+<td style="text-align:center">所有的元素都满足条件时返回true</td>
+<td style="text-align:center">MATCH p=(a)-[]-&gt;(b) where all(x in nodes(p) where exists(x.name)) return p</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">any(&hellip;)</td>
+<td style="text-align:center">有一个元素为真即可</td>
+<td style="text-align:center">MATCH (a:Person) where any(x in a.names where size(x) &gt;10)</td>
+<td style="text-align:center">a.names的类型是列表</td>
+</tr>
+<tr>
+<td style="text-align:center">None(&hellip;)</td>
+<td style="text-align:center">表示没有一个成立</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">Single(&hellip;)</td>
+<td style="text-align:center">只有一个成立</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">endNode(relation)</td>
+<td style="text-align:center">关系的终止节点</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">startNode(relation)</td>
+<td style="text-align:center">关系的起始节点</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">coalesce()</td>
+<td style="text-align:center">返回列表中第一个非null值</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">head()/last()</td>
+<td style="text-align:center">返回列表中第一个/最后一个元素</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">size(list | String)</td>
+<td style="text-align:center">返回长度或者大小</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">length()</td>
+<td style="text-align:center">路径长度</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">count() max() min() sum()</td>
+<td style="text-align:center">不解释</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">filter(&hellip;)</td>
+<td style="text-align:center">列表过滤元素</td>
+<td style="text-align:center">(x in array where)</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">extract(&hellip;)</td>
+<td style="text-align:center">抽取元素</td>
+<td style="text-align:center">extract(x in path | x.age)</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">keys(node)</td>
+<td style="text-align:center">返回节点key的列表</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">labels(node)</td>
+<td style="text-align:center">获取标签</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">nodes(path)</td>
+<td style="text-align:center">获取路径中的节点</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">relationships(path)</td>
+<td style="text-align:center">获取路径中的所有关系</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">range(begin,end[,step])</td>
+<td style="text-align:center">和python用法一样</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">reverse(list)</td>
+<td style="text-align:center">反转列表</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
+</tr>
+<tr>
+<td style="text-align:center">reduce</td>
+<td style="text-align:center">迭代计算</td>
+<td style="text-align:center">(total=0 x in path/array | total+x.age)</td>
+<td style="text-align:center">(初始化 迭代过程| 表达式)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="进阶用法">进阶用法</h2>
+<h3 id="聚合">聚合</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> (a:Person)<span style="color:#f92672">-</span>[:IS_FRIEND_OF]<span style="color:#f92672">-</span>()
+<span style="color:#66d9ef">return</span> a,<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>)
+<span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> <span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">desc</span> <span style="color:#75715e">-- 输出朋友的数目，由大到小
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">MATCH</span> ()<span style="color:#f92672">-</span>[r]<span style="color:#f92672">-</span>()
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">type</span>(r),<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) <span style="color:#75715e">-- 输出
+</span></code></pre></div><h3 id="列表和with">列表和With</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 使用[begin..end] 相等于[begin:end]
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">WITH</span> [<span style="color:#e6db74">&#39;Anne&#39;</span>, <span style="color:#e6db74">&#39;John&#39;</span>, <span style="color:#e6db74">&#39;Bill&#39;</span>, <span style="color:#e6db74">&#39;Diane&#39;</span>, <span style="color:#e6db74">&#39;Eve&#39;</span>] <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">names</span>
+<span style="color:#66d9ef">RETURN</span> <span style="color:#66d9ef">names</span>[<span style="color:#ae81ff">1</span>..<span style="color:#ae81ff">3</span>] <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">result</span>
+
+<span style="color:#75715e">-- + 拼接，适用于列表和字符串
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">WITH</span> [<span style="color:#e6db74">&#39;Anne&#39;</span>, <span style="color:#e6db74">&#39;John&#39;</span>, <span style="color:#e6db74">&#39;Bill&#39;</span>, <span style="color:#e6db74">&#39;Diane&#39;</span>, <span style="color:#e6db74">&#39;Eve&#39;</span>] <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">names</span>
+<span style="color:#66d9ef">RETURN</span> <span style="color:#66d9ef">names</span>[<span style="color:#ae81ff">1</span>..<span style="color:#ae81ff">3</span>]<span style="color:#f92672">+</span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>] <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">result</span>
+
+<span style="color:#75715e">-- IN
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">RETURN</span> [<span style="color:#ae81ff">13</span>]<span style="color:#f92672">+</span>[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>] <span style="color:#66d9ef">AS</span> <span style="color:#66d9ef">result</span> <span style="color:#75715e">-- 输出  [13,1,2]
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 嵌套列表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> [<span style="color:#ae81ff">1</span>] <span style="color:#66d9ef">in</span> [[<span style="color:#ae81ff">1</span>],<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">5</span>] <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">result</span> <span style="color:#75715e">-- 输出 true
+</span></code></pre></div><h3 id="版本检查">版本检查</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 在语句前加上使用CYPHER 1.8
+</span></code></pre></div><h3 id="省略路径">省略路径</h3>
+<ul>
+<li>写成(a)&ndash;&gt;(b)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">MATCH</span> p<span style="color:#f92672">=</span>(a)<span style="color:#75715e">--&gt;(b)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">return</span> p
+</code></pre></div><h3 id="unwind">unwind</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 遍历列表输出 每个元素输出一行
+</span><span style="color:#75715e"></span>unwind [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>] <span style="color:#66d9ef">as</span> x
+<span style="color:#66d9ef">return</span> x
+
+<span style="color:#75715e">-- 嵌套
+</span><span style="color:#75715e"></span>unwind [[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>],<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>] <span style="color:#66d9ef">as</span> x
+unwind x <span style="color:#66d9ef">as</span> y
+<span style="color:#66d9ef">return</span> y
+</code></pre></div><h3 id="foreach列表更新">foreach列表更新</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">match</span> p<span style="color:#f92672">=</span>(a)<span style="color:#75715e">--&gt;(b)
+</span><span style="color:#75715e"></span>foreach (n <span style="color:#66d9ef">in</span> nodes(p) <span style="color:#f92672">|</span> <span style="color:#66d9ef">set</span> n.age<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</code></pre></div><h2 id="使用jdbc操作">使用jdbc操作</h2>
+<ul>
+<li>下载依赖</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">        <span style="color:#f92672">&lt;dependency&gt;</span>
+            <span style="color:#f92672">&lt;groupId&gt;</span>org.neo4j<span style="color:#f92672">&lt;/groupId&gt;</span>
+            <span style="color:#f92672">&lt;artifactId&gt;</span>neo4j-jdbc-driver<span style="color:#f92672">&lt;/artifactId&gt;</span>
+            <span style="color:#f92672">&lt;version&gt;</span>3.1.0<span style="color:#f92672">&lt;/version&gt;</span>
+        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><ul>
+<li>启动</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Class.forName(&#34;org.neo4j.jdbc.Driver&#34;);
+</span><span style="color:#75715e"></span>            Connection conn <span style="color:#f92672">=</span> DriverManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jdbc:neo4j:http://localhost:7474/&#34;</span><span style="color:#f92672">,</span>userName<span style="color:#f92672">,</span>password<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// 这里用的 http
+</span><span style="color:#75715e"></span>            conn<span style="color:#f92672">.</span><span style="color:#a6e22e">setAutoCommit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+            PreparedStatement preparedStatement <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span><span style="color:#a6e22e">prepareStatement</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;create (:Person{name:&#39;lily&#39;,age:20})&#34;</span><span style="color:#f92672">);</span>
+            preparedStatement<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
+            conn<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">();</span>
+
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span>
+        <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="heading"></h3>
+<h2 id="注意的点">注意的点</h2>
+<ul>
+<li>字符串的单引号和双引号不区分</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p>Neo4j实战 机械工业出版社<br>
+Neo4j 第六篇：Cypher语法:https://www.cnblogs.com/ljhdo/p/10911426.html<br>
+Neo4j csv文件导入:https://www.jianshu.com/p/5b7cf47ced14</p>
+
+  </div>
+
+  
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+     data-text="SQL--Neo4j(基础用法)"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+     data-text="SQL--Neo4j(基础用法)"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+     data-text="SQL--Neo4j(基础用法)"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+     data-text="SQL--Neo4j(基础用法)"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j/"
+     data-text="SQL--Neo4j(基础用法)"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; Huang Chenhan 2021
+
+      
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>

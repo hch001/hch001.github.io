@@ -1,0 +1,88 @@
+.lead{
+    font-size:0.6rem;
+}
+
+/* 根据hugo生成的标题 */
+.post .title{ 
+    font-size: 1.5rem;
+}
+
+/* 各级标题 */
+h1{
+    font-size: 1.3rem;
+}
+h2{
+    font-size: 1.2rem;
+}
+h3{
+    font-size: 1.1rem;
+}
+h4{
+    font-size: 1.0rem;
+}
+h5{
+    font-size: 0.9rem;
+}
+h6{
+    font-size: 0.8rem;
+}
+code span{
+    font-size: 0.7rem;
+}
+code {
+    font-size: 0.7rem;
+}
+
+/* Home 界面的各文章标题 */
+.post-title a {
+    font-size:1.1rem;
+}
+
+
+/* Home 界面的文章简要 */
+article div{
+    font-size: 0.7rem;
+}
+
+/* Home界面的 read more 按钮(隐藏) */
+.read-more-link /*a*/{
+    /* font-size:100%; */
+    display: none;
+}
+
+/* Home 界面的发布时间 */
+.post-date {
+    font-size: 0.7rem;
+}
+
+/* 以下就是具体文章界面的样式 */
+
+/* p 对应markdown中的普通文本 */
+p {
+    font-size: 0.7rem;
+}
+
+/* 列表样式 */
+li {
+    font-size: 0.7rem;
+}
+
+/* 代码样式 */
+pre code {
+    font-size: 60%;
+}
+
+/* 表格 */
+tr{
+    font-size: 0.7rem;
+}
+
+/* 引用 */
+.post a {
+    font-size: 0.7rem;
+}
+
+/* 隐藏文章下方的分享按钮 */
+.share-buttons{
+    display: none;
+}

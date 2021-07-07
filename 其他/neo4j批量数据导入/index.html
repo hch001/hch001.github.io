@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.75.1" />
+
+  <title>neo4j批量csv数据高速导入(多种关系) &middot; 我的笔记</title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="neo4j批量csv数据高速导入(多种关系)">
+<meta itemprop="description" content="Neo4j导入较小的数据 一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入
+1. mysql 通过 csv 文件导入 neo4j  先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)  select * from film into outfile &#34;E:/flim.">
+<meta itemprop="datePublished" content="2020-06-04T01:18:09+08:00" />
+<meta itemprop="dateModified" content="2020-06-04T01:18:09+08:00" />
+<meta itemprop="wordCount" content="231">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="neo4j批量csv数据高速导入(多种关系)"/>
+<meta name="twitter:description" content="Neo4j导入较小的数据 一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入
+1. mysql 通过 csv 文件导入 neo4j  先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)  select * from film into outfile &#34;E:/flim."/>
+
+
+<meta property="og:title" content="neo4j批量csv数据高速导入(多种关系)" />
+<meta property="og:description" content="Neo4j导入较小的数据 一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入
+1. mysql 通过 csv 文件导入 neo4j  先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)  select * from film into outfile &#34;E:/flim." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/" />
+<meta property="article:published_time" content="2020-06-04T01:18:09+08:00" />
+<meta property="article:modified_time" content="2020-06-04T01:18:09+08:00" />
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://hch001.github.io/#author",
+      "name": "Huang Chenhan",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://hch001.github.io/images/profile.jpeg"
+        
+      },
+      "description": "脑子不够用了，希望这个能充当大脑外存吧"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://hch001.github.io/#website",
+      "url": "https://hch001.github.io/",
+      "name": "我的笔记",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "inLanguage": "en-us"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/#webpage",
+      "url": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/",
+      "name": "neo4j批量csv数据高速导入(多种关系)",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/#website"
+      },
+      "about": {
+         "@id": "https://hch001.github.io/#author"
+      },
+      "datePublished": "2020-06-04T01:18:09+08:00",
+      "dateModified": "2020-06-04T01:18:09+08:00",
+      "description": "Neo4j导入较小的数据 一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入\n1. mysql 通过 csv 文件导入 neo4j  先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)  select * from film into outfile \u0026#34;E:/flim.",
+      "inLanguage": "en-us",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/#webpage"
+      },
+      "headline": "neo4j批量csv数据高速导入(多种关系)",
+      "datePublished": "2020-06-04T01:18:09+08:00",
+      "dateModified": "2020-06-04T01:18:09+08:00",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "keywords": [
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en-us",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://hch001.github.io/">
+            <img src="/images/profile.jpeg" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1>我的笔记</h1>
+
+      
+      <p class="lead">脑子不够用了，希望这个能充当大脑外存吧</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://hch001.github.io/">Home</a>
+        </li>
+        <li>
+          <a href="/%E5%85%B6%E4%BB%96/">其他</a>
+        </li><li>
+          <a href="/%E5%90%8E%E7%AB%AF/">后端</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="https://github.com/hch001" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">neo4j批量csv数据高速导入(多种关系)</h1>
+  
+
+  <div class="post-date">
+    <time datetime="2020-06-04T01:18:09&#43;0800">Jun 4, 2020</time> <span class="readtime">&middot; 2 min read</span>
+  </div>
+
+  <div>
+  <h2 id="neo4j导入较小的数据">Neo4j导入较小的数据</h2>
+<p>一般小数据通过neo4j自带的load csv语句(几万的数据量)进行导入</p>
+<h3 id="1-mysql-通过-csv-文件导入-neo4j">1. mysql 通过 csv 文件导入 neo4j</h3>
+<ul>
+<li>先将mysql导出成csv文件(可以通过命令导出，也可以通过navicat for mysql的功能来导出)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> 
+<span style="color:#66d9ef">from</span> film
+<span style="color:#66d9ef">into</span> outfile <span style="color:#e6db74">&#34;E:/flim.csv&#34;</span> <span style="color:#75715e">-- 这一步有报错的可以看我的mysql的最后，有解决方法 
+</span><span style="color:#75715e">-- https://hch001.github.io/other/sql-mysql/
+</span><span style="color:#75715e"></span>fields terminated <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;,&#39;</span>;  <span style="color:#75715e">-- 通过逗号分隔
+</span></code></pre></div><ul>
+<li>再通过Neo4j的命令导入</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">load</span> csv (<span style="color:#66d9ef">with</span> headers) <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;file:///filename&#39;</span> <span style="color:#66d9ef">as</span> line <span style="color:#66d9ef">create</span> (:Film <span style="color:#960050;background-color:#1e0010">{</span>filmID:line[<span style="color:#ae81ff">0</span>], title:line[<span style="color:#ae81ff">1</span>], releaseData:line[<span style="color:#ae81ff">2</span>]<span style="color:#960050;background-color:#1e0010">}</span>)
+<span style="color:#75715e">-- 这里的路径是相对路径从import文件夹(作为根路径)开始计算的
+</span><span style="color:#75715e">-- 进行关系型csv导入时一定要提前给查找的数据段建立索引
+</span><span style="color:#75715e">-- with headers 可以在csv表格的第一行加上字段的名称
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">USING</span> PERIODIC <span style="color:#66d9ef">COMMIT</span> <span style="color:#ae81ff">1000</span> <span style="color:#75715e">-- 设置n次操作提交一次
+</span><span style="color:#75715e">-- 在网页上是自动进行提交的所以不能用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">load</span> csv <span style="color:#66d9ef">with</span> headers <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;file:///write.csv&#34;</span> <span style="color:#66d9ef">as</span> line
+<span style="color:#66d9ef">match</span> (<span style="color:#66d9ef">from</span>:Author<span style="color:#960050;background-color:#1e0010">{</span>author:line.authorID<span style="color:#960050;background-color:#1e0010">}</span>),(<span style="color:#66d9ef">to</span>:Film<span style="color:#960050;background-color:#1e0010">{</span>filmID:line.filmID<span style="color:#960050;background-color:#1e0010">}</span>)
+<span style="color:#66d9ef">create</span> (<span style="color:#66d9ef">from</span>)<span style="color:#f92672">-</span>[r:<span style="color:#66d9ef">WRITE</span>]<span style="color:#f92672">-&gt;</span>(<span style="color:#66d9ef">to</span>),(<span style="color:#66d9ef">to</span>)<span style="color:#f92672">-</span>[:WRITEN_BY]<span style="color:#f92672">-&gt;</span>(<span style="color:#66d9ef">from</span>)
+</code></pre></div><h3 id="2-特点">2. 特点</h3>
+<p>性能<strong>极其低下</strong>，但是好处是不需要关闭数据库，也不需要保证数据库不存在（使用自带的批处理工具执行import的话只能导入数据新建一个数据库）</p>
+<h2 id="neo4j导入较大的数据">Neo4j导入较大的数据</h2>
+<p>这里使用 Neo4j 自带的 neo4j-admin.bat来进行操作</p>
+<h3 id="0-预计模型">0. 预计模型</h3>
+<p><img src="https://s1.ax1x.com/2020/06/04/twYSUK.png" alt="033.png"></p>
+<h3 id="1-准备csv文件">1. 准备csv文件</h3>
+<p>同上的步骤一致，但是需要改写一下头部</p>
+<h4 id="节点的csv格式">节点的csv格式</h4>
+<p>文件 film.csv</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">filmID:ID</th>
+<th style="text-align:center">title</th>
+<th style="text-align:center">releaseDate</th>
+<th style="text-align:center">area</th>
+<th style="text-align:center">language</th>
+<th style="text-align:center">tags</th>
+<th style="text-align:center">rating</th>
+<th style="text-align:center">summary</th>
+<th style="text-align:center">:LABEL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">10001417</td>
+<td style="text-align:center">黑帮天使</td>
+<td style="text-align:center">2011-12-02</td>
+<td style="text-align:center">泰国</td>
+<td style="text-align:center">泰语</td>
+<td style="text-align:center">喜剧/爱情</td>
+<td style="text-align:center">7.4</td>
+<td style="text-align:center">家境富有的男主因为。。。</td>
+<td style="text-align:center">Film</td>
+</tr>
+</tbody>
+</table>
+<p>这里的第一列后面的 :ID 是代表用于后面用于关系做关联的键，filmID可以自己改，最后面的 :LABEL 是代表标签（自命名的类），中间的部分是属性（filmID也是属性，这里用来关联其他节点）。</p>
+<p>文件 actor.csv</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">actorID:ID</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">foreignName</th>
+<th style="text-align:center">birthday</th>
+<th style="text-align:center">gender</th>
+<th style="text-align:center">nationality</th>
+<th style="text-align:center">:LABEL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1000001</td>
+<td style="text-align:center">朱丽娅·斯蒂尔斯</td>
+<td style="text-align:center">Julia Stiles</td>
+<td style="text-align:center">1981/3/28</td>
+<td style="text-align:center">女</td>
+<td style="text-align:center">美国</td>
+<td style="text-align:center">Actor</td>
+</tr>
+</tbody>
+</table>
+<h4 id="关系的csv格式">关系的csv格式</h4>
+<p>上面两个表有个关系 ACTED_IN，代表演员参演某部电影，csv格式如下<br>
+文件acted_in.csv</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">:START_ID</th>
+<th style="text-align:center">:END_ID</th>
+<th style="text-align:center">:TYPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1327333</td>
+<td style="text-align:center">10001424</td>
+<td style="text-align:center">ACTED_IN</td>
+</tr>
+<tr>
+<td style="text-align:center">1350370</td>
+<td style="text-align:center">10001424</td>
+<td style="text-align:center">ACTED_IN</td>
+</tr>
+<tr>
+<td style="text-align:center">1397237</td>
+<td style="text-align:center">10001424</td>
+<td style="text-align:center">ACTED_IN</td>
+</tr>
+</tbody>
+</table>
+<p>:START_ID和 :END_ID 分别代表关系的起点和终点，这里有规定这两个列必须先写，在这两个列和最后:TYPE 列中间可以添加自己的属性。:TYPE 代表关系的类别</p>
+<h3 id="2-具体命令">2. 具体命令</h3>
+<p>进行操作前需要把csv文件放入import文件夹中，关闭服务并清空data文件夹中的所有文件<br>
+先试试单个命令，将上面的三个表导入</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">neo4j<span style="color:#f92672">-</span>admin<span style="color:#f92672">.</span>bat <span style="color:#f92672">import</span> 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>actor<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>film<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 导入节点文件actor.csv,film.csv和关系文件acted_in.csv </span>
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>acted_in<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>skip<span style="color:#f92672">-</span>duplicate<span style="color:#f92672">-</span>nodes <span style="color:#75715e"># 如果出现重复的节点就跳过</span>
+<span style="color:#f92672">--</span>skip<span style="color:#f92672">-</span>bad<span style="color:#f92672">-</span>relationships <span style="color:#75715e"># 跳过匹配错误的关系</span>
+</code></pre></div><p>清空data文件夹，尝试所有文件导入进入安装目录的 bin 文件夹下，打开 cmd(这里用windows示范，Linux，macos自行打开终端到该路径下)，执行命令如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 由于在bin目录下，这里的路径是相对bin目录而言的，所有的文件我都放在import下</span>
+neo4j<span style="color:#f92672">-</span>admin<span style="color:#f92672">.</span>bat <span style="color:#f92672">import</span> 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newFilm<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newAuthor<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newWrite<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 节点和关系</span>
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newDirector<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newFilm<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newDirect<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 节点和关系</span>
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newActor<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newFilm<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newPerform<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 节点和关系</span>
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newUser<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newFilm<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newComment<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 节点和关系</span>
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newUser<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>nodes<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>newFilm<span style="color:#f92672">.</span>csv 
+<span style="color:#f92672">--</span>relationships<span style="color:#f92672">=../</span>import<span style="color:#f92672">/</span>hasViewer<span style="color:#f92672">.</span>csv <span style="color:#75715e"># 节点的关系</span>
+<span style="color:#f92672">--</span>skip<span style="color:#f92672">-</span>duplicate<span style="color:#f92672">-</span>nodes <span style="color:#75715e"># 如果出现重复的节点就跳过</span>
+<span style="color:#f92672">--</span>skip<span style="color:#f92672">-</span>bad<span style="color:#f92672">-</span>relationships <span style="color:#75715e"># 跳过匹配错误的关系</span>
+</code></pre></div><h3 id="3-效率">3. 效率</h3>
+<p>测试数据如下图</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">CPU占用</th>
+<th style="text-align:center">内存占用</th>
+<th style="text-align:center">时间消耗</th>
+<th style="text-align:center">数据量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">load csv</td>
+<td style="text-align:center">直接90%+</td>
+<td style="text-align:center">5G+</td>
+<td style="text-align:center">未知，跑了三四个小时也没成功过</td>
+<td style="text-align:center">只测试导入一种关系就卡死了</td>
+</tr>
+<tr>
+<td style="text-align:center">neo4j-admin.bat import</td>
+<td style="text-align:center">不到30%</td>
+<td style="text-align:center">1G</td>
+<td style="text-align:center">17.8s</td>
+<td style="text-align:center">下图所示</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://s1.ax1x.com/2020/06/04/twJmp4.png" alt="032.png"></p>
+<h3 id="4-展示">4. 展示</h3>
+<p>最终的数据量（经过我的改进）<br>
+<img src="https://s1.ax1x.com/2020/06/04/twJEkT.png" alt="029.png"></p>
+<p>截取一小部分<br>
+<img src="https://s1.ax1x.com/2020/06/04/twJn1J.png" alt="030.png"></p>
+<p>最基础的关系，后续肯定会改进<br>
+<img src="https://s1.ax1x.com/2020/06/04/twJuc9.png" alt="031.png"></p>
+<h2 id="参考">参考</h2>
+<p>Neo4j官网教程:https://neo4j.com/docs/operations-manual/current/tutorial/import-tool/</p>
+
+  </div>
+
+  
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+     data-text="neo4j批量csv数据高速导入(多种关系)"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+     data-text="neo4j批量csv数据高速导入(多种关系)"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+     data-text="neo4j批量csv数据高速导入(多种关系)"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+     data-text="neo4j批量csv数据高速导入(多种关系)"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/"
+     data-text="neo4j批量csv数据高速导入(多种关系)"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; Huang Chenhan 2021
+
+      
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>
