@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>后端s on 我的笔记</title>
+    <link>https://hch001.github.io/%E5%90%8E%E7%AB%AF/</link>
+    <description>Recent content in 后端s on 我的笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Jul 2020 13:58:54 +0800</lastBuildDate><atom:link href="https://hch001.github.io/%E5%90%8E%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>springboot在本地运行成功在阿里云tomcat报错404</title>
+      <link>https://hch001.github.io/%E5%90%8E%E7%AB%AF/springboot%E5%9C%A8%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91tomcat%E6%8A%A5%E9%94%99404/</link>
+      <pubDate>Sun, 05 Jul 2020 13:58:54 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%90%8E%E7%AB%AF/springboot%E5%9C%A8%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F%E5%9C%A8%E9%98%BF%E9%87%8C%E4%BA%91tomcat%E6%8A%A5%E9%94%99404/</guid>
+      <description>很有可能是controller的写法有问题。我在本地运行一直没有问题，之前打包放在服务器上也能运行，但是这次用IDEA打包成war放到阿里云的tomcat上运行就出错，报错404，我仔细的检查了几遍，也没发现问题，按理说在本地运行成功了说明controller类没有写错。但是要注意是否更改过java文件的文件名或者删除了某些文件。
+ 这时候需要去查看日志文件，在tomcat安装目录下的logs下的 catalina-日期.log 文件中，这里查到了一条最早的报错。
+下面是报错信息（只需要看最后四行）
+08-Jul-2020 02:08:07.774 SEVERE [main] org.</description>
+    </item>
+    
+    <item>
+      <title>springboot Jpa在Linux环境下中文无法匹配</title>
+      <link>https://hch001.github.io/%E5%90%8E%E7%AB%AF/springboot-jpa%E5%9C%A8linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%AD%E6%96%87%E6%97%A0%E6%B3%95%E5%8C%B9%E9%85%8D/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%90%8E%E7%AB%AF/springboot-jpa%E5%9C%A8linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%AD%E6%96%87%E6%97%A0%E6%B3%95%E5%8C%B9%E9%85%8D/</guid>
+      <description>如题，在本地测试成功，Jpa调用findByTitleContains()，在windows下的IDEA中成功运行得到返回值，然而打包放在服务器(Ubuntu)上，出现了查询结果为空的情况。 首先，我去查了日志，没有错误。然后我就用@Query重新写了，不使用JpaRepository自动配好的方法，结果在日志里看到了表达式错误。可是在windows下没有问题，我以为是mysql的字符集跟window的不一样(服务器和本地用的不是同一个数据库)，结果改来改去也没啥用，为此我还删了重装。
+后来发现在查询英文字符的时候没有报错，说明还是跟字符编码有关系。最后终于发现了在application.preperties中的数据库连接url的时候需要加上 useUnicode=true&amp;amp;characterEncoding=utf-8，在windows环境可能下不需要写（也可能是IDEA的某些配置），反正打包到服务器上是一定要加上的，方便的环境也是挺能害人的，开发还是最好在类似的环境下弄才省事。 一个简单的问题，我又去查日志，又是重装的，结果只是一个小问题，花了两个小时也没啥收获，先记录下吧。</description>
+    </item>
+    
+  </channel>
+</rss>

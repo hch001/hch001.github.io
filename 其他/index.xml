@@ -6,7 +6,39 @@
     <description>Recent content in 其他s on 我的笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Jun 2020 01:18:09 +0800</lastBuildDate><atom:link href="https://hch001.github.io/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Jul 2021 00:44:50 +0800</lastBuildDate><atom:link href="https://hch001.github.io/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mac能ping通github但网页加载不了</title>
+      <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/mac%E8%83%BDping%E9%80%9Agithub%E4%BD%86%E7%BD%91%E9%A1%B5%E5%8A%A0%E8%BD%BD%E4%B8%8D%E4%BA%86/</link>
+      <pubDate>Tue, 06 Jul 2021 00:44:50 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%85%B6%E4%BB%96/mac%E8%83%BDping%E9%80%9Agithub%E4%BD%86%E7%BD%91%E9%A1%B5%E5%8A%A0%E8%BD%BD%E4%B8%8D%E4%BA%86/</guid>
+      <description> 执行 ping github.com命令，获取可以ping通的IP地址 浏览器中访问 https://targetIP，这里的targetIP即位上一步中获取的IP  </description>
+    </item>
+    
+    <item>
+      <title>navicat传输数据出错</title>
+      <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/navicat%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E5%87%BA%E9%94%99/</link>
+      <pubDate>Fri, 17 Jul 2020 13:58:54 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%85%B6%E4%BB%96/navicat%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E5%87%BA%E9%94%99/</guid>
+      <description>问题 navicat（直接右击数据传输进行的话）传输数据到服务器出现数据丢失的情况。
+解决方法：  不使用上述方法进行传输，先转存成sql文件
+ 然后在进行传输，速度更快且不会丢失
+  </description>
+    </item>
+    
+    <item>
+      <title>使用navicat连接阿里云mysql</title>
+      <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91/</link>
+      <pubDate>Sun, 05 Jul 2020 13:58:54 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E5%88%B0%E9%98%BF%E9%87%8C%E4%BA%91/</guid>
+      <description>在阿里云上配置mysql遇到的错误，使用navicat
+ 修改阿里云的防火墙机制   添加自定义TCP 端口3306(默认)即可
+  mysql默认绑定了3306端口只能通过localhost访问   cd /etc/mysql/mysql.</description>
+    </item>
+    
     <item>
       <title>neo4j批量csv数据高速导入(多种关系)</title>
       <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/neo4j%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5/</link>
@@ -26,6 +58,25 @@
       <description>配置 windows配置neo4j 在windows环境中配置Neo4j
 语法 在windows系统中执行，neo4j.bat console，就可以在网页中进行操作
 创建/删除节点 create (n:Label1:Label2:Label3 {attr1:value1, attr2:value2}) -- n 代表别名如果不需要引用可省略 -- label 也可以省略  -- 例1 create (:Person {name:&amp;#39;Lee&amp;#39;, age:20}),(:Person {name:&amp;#39;David&amp;#39;, age:20}) -- 使用逗号创建多个节点  -- 删除节点，将会删除所有匹配的节点，如果存在关系则无法删除需要用到(detach)级联删除 MATCH (p:Person{name:&amp;#39;Lee&amp;#39;}) detach delete p 创建/删除关系 MATCH (a:Person),(b:Person) where a.</description>
+    </item>
+    
+    <item>
+      <title>实用技能</title>
+      <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/%E5%AE%9E%E7%94%A8%E6%8A%80%E8%83%BD/</link>
+      <pubDate>Sun, 24 May 2020 13:58:54 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%85%B6%E4%BB%96/%E5%AE%9E%E7%94%A8%E6%8A%80%E8%83%BD/</guid>
+      <description>解决方法  IDEA 中文乱码   https://blog.csdn.net/liqimo1799/article/details/81811153 https://www.cnblogs.com/lwcode6/p/11598632.html
+  IEDA 查看函数的源码   Ctrl + Alt + 鼠标点击</description>
+    </item>
+    
+    <item>
+      <title>SQL--Mysql(基础用法)</title>
+      <link>https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/</link>
+      <pubDate>Fri, 15 May 2020 17:07:40 +0800</pubDate>
+      
+      <guid>https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/</guid>
+      <description>基本语句 use dbName; -- 更改当前数据库  show databases; show tables; show create table tableName; show create view viewName; -- 查看创建的语句 show columns from tableName; show create procedure procedureName; drop table tableName; drop dbName; drop procedure precedureName; drop INDEX indexName on tableName drop TRIGGER triggerName; drop user username; 创建语句  mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，  create table Actor ( -- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关  -- 加上zerofill之后，显示的内容至少是10位，不足就按0填充  actor_id int(10) not null auto_increment zerofill, -- 从1开始，使用 last_insert_id()返回值  film_id char(10) not null, age int not null default 20, sex enum(&amp;#39;男&amp;#39;,&amp;#39;女&amp;#39;), -- 指定范围  primary key (actor_id), constraint actor_film_id foreign key(film_id) references Film(film_id), -- 外键  constraint age_chk check(age&amp;gt;0 and age&amp;lt;150) -- 定义约束，前面的两个词可以省略 )engine=(InnoDB | MyISAM); -- 两种不同的数据库引擎 -- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快 -- MyISAM 不支持事务处理，支持全文本搜索 -- 外键不能跨引擎 插入语句 insert (LOW_PRIORITY) (ignore) into tableName(column1,column2) values(value1,value2); -- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete -- ignore 屏蔽错误信息，也可以用在 update  -- 插入检索数据 insert into tableName(column1,column2) select column1,column2 where .</description>
     </item>
     
     <item>

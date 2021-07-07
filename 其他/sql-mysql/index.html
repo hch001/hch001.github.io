@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.75.1" />
+
+  <title>SQL--Mysql(基础用法) &middot; 我的笔记</title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="SQL--Mysql(基础用法)">
+<meta itemprop="description" content="基本语句 use dbName; -- 更改当前数据库  show databases; show tables; show create table tableName; show create view viewName; -- 查看创建的语句 show columns from tableName; show create procedure procedureName; drop table tableName; drop dbName; drop procedure precedureName; drop INDEX indexName on tableName drop TRIGGER triggerName; drop user username; 创建语句  mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，  create table Actor ( -- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关  -- 加上zerofill之后，显示的内容至少是10位，不足就按0填充  actor_id int(10) not null auto_increment zerofill, -- 从1开始，使用 last_insert_id()返回值  film_id char(10) not null, age int not null default 20, sex enum(&#39;男&#39;,&#39;女&#39;), -- 指定范围  primary key (actor_id), constraint actor_film_id foreign key(film_id) references Film(film_id), -- 外键  constraint age_chk check(age&gt;0 and age&lt;150) -- 定义约束，前面的两个词可以省略 )engine=(InnoDB | MyISAM); -- 两种不同的数据库引擎 -- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快 -- MyISAM 不支持事务处理，支持全文本搜索 -- 外键不能跨引擎 插入语句 insert (LOW_PRIORITY) (ignore) into tableName(column1,column2) values(value1,value2); -- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete -- ignore 屏蔽错误信息，也可以用在 update  -- 插入检索数据 insert into tableName(column1,column2) select column1,column2 where .">
+<meta itemprop="datePublished" content="2020-05-15T17:07:40+08:00" />
+<meta itemprop="dateModified" content="2020-05-15T17:07:40+08:00" />
+<meta itemprop="wordCount" content="1732">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SQL--Mysql(基础用法)"/>
+<meta name="twitter:description" content="基本语句 use dbName; -- 更改当前数据库  show databases; show tables; show create table tableName; show create view viewName; -- 查看创建的语句 show columns from tableName; show create procedure procedureName; drop table tableName; drop dbName; drop procedure precedureName; drop INDEX indexName on tableName drop TRIGGER triggerName; drop user username; 创建语句  mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，  create table Actor ( -- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关  -- 加上zerofill之后，显示的内容至少是10位，不足就按0填充  actor_id int(10) not null auto_increment zerofill, -- 从1开始，使用 last_insert_id()返回值  film_id char(10) not null, age int not null default 20, sex enum(&#39;男&#39;,&#39;女&#39;), -- 指定范围  primary key (actor_id), constraint actor_film_id foreign key(film_id) references Film(film_id), -- 外键  constraint age_chk check(age&gt;0 and age&lt;150) -- 定义约束，前面的两个词可以省略 )engine=(InnoDB | MyISAM); -- 两种不同的数据库引擎 -- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快 -- MyISAM 不支持事务处理，支持全文本搜索 -- 外键不能跨引擎 插入语句 insert (LOW_PRIORITY) (ignore) into tableName(column1,column2) values(value1,value2); -- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete -- ignore 屏蔽错误信息，也可以用在 update  -- 插入检索数据 insert into tableName(column1,column2) select column1,column2 where ."/>
+
+
+<meta property="og:title" content="SQL--Mysql(基础用法)" />
+<meta property="og:description" content="基本语句 use dbName; -- 更改当前数据库  show databases; show tables; show create table tableName; show create view viewName; -- 查看创建的语句 show columns from tableName; show create procedure procedureName; drop table tableName; drop dbName; drop procedure precedureName; drop INDEX indexName on tableName drop TRIGGER triggerName; drop user username; 创建语句  mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，  create table Actor ( -- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关  -- 加上zerofill之后，显示的内容至少是10位，不足就按0填充  actor_id int(10) not null auto_increment zerofill, -- 从1开始，使用 last_insert_id()返回值  film_id char(10) not null, age int not null default 20, sex enum(&#39;男&#39;,&#39;女&#39;), -- 指定范围  primary key (actor_id), constraint actor_film_id foreign key(film_id) references Film(film_id), -- 外键  constraint age_chk check(age&gt;0 and age&lt;150) -- 定义约束，前面的两个词可以省略 )engine=(InnoDB | MyISAM); -- 两种不同的数据库引擎 -- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快 -- MyISAM 不支持事务处理，支持全文本搜索 -- 外键不能跨引擎 插入语句 insert (LOW_PRIORITY) (ignore) into tableName(column1,column2) values(value1,value2); -- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete -- ignore 屏蔽错误信息，也可以用在 update  -- 插入检索数据 insert into tableName(column1,column2) select column1,column2 where ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/" />
+<meta property="article:published_time" content="2020-05-15T17:07:40+08:00" />
+<meta property="article:modified_time" content="2020-05-15T17:07:40+08:00" />
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://hch001.github.io/#author",
+      "name": "Huang Chenhan",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://hch001.github.io/images/profile.jpeg"
+        
+      },
+      "description": "脑子不够用了，希望这个能充当大脑外存吧"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://hch001.github.io/#website",
+      "url": "https://hch001.github.io/",
+      "name": "我的笔记",
+      "description": "脑子不够用了，希望这个能充当大脑外存吧",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "inLanguage": "en-us"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/#webpage",
+      "url": "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/",
+      "name": "SQL--Mysql(基础用法)",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/#website"
+      },
+      "about": {
+         "@id": "https://hch001.github.io/#author"
+      },
+      "datePublished": "2020-05-15T17:07:40+08:00",
+      "dateModified": "2020-05-15T17:07:40+08:00",
+      "description": "基本语句 use dbName; -- 更改当前数据库  show databases; show tables; show create table tableName; show create view viewName; -- 查看创建的语句 show columns from tableName; show create procedure procedureName; drop table tableName; drop dbName; drop procedure precedureName; drop INDEX indexName on tableName drop TRIGGER triggerName; drop user username; 创建语句  mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，  create table Actor ( -- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关  -- 加上zerofill之后，显示的内容至少是10位，不足就按0填充  actor_id int(10) not null auto_increment zerofill, -- 从1开始，使用 last_insert_id()返回值  film_id char(10) not null, age int not null default 20, sex enum(\u0026#39;男\u0026#39;,\u0026#39;女\u0026#39;), -- 指定范围  primary key (actor_id), constraint actor_film_id foreign key(film_id) references Film(film_id), -- 外键  constraint age_chk check(age\u0026gt;0 and age\u0026lt;150) -- 定义约束，前面的两个词可以省略 )engine=(InnoDB | MyISAM); -- 两种不同的数据库引擎 -- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快 -- MyISAM 不支持事务处理，支持全文本搜索 -- 外键不能跨引擎 插入语句 insert (LOW_PRIORITY) (ignore) into tableName(column1,column2) values(value1,value2); -- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete -- ignore 屏蔽错误信息，也可以用在 update  -- 插入检索数据 insert into tableName(column1,column2) select column1,column2 where .",
+      "inLanguage": "en-us",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/#webpage"
+      },
+      "headline": "SQL--Mysql(基础用法)",
+      "datePublished": "2020-05-15T17:07:40+08:00",
+      "dateModified": "2020-05-15T17:07:40+08:00",
+      "publisher": {
+        "@id": "https://hch001.github.io/#author"
+      },
+      "keywords": [
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en-us",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://hch001.github.io/">
+            <img src="/images/profile.jpeg" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1>我的笔记</h1>
+
+      
+      <p class="lead">脑子不够用了，希望这个能充当大脑外存吧</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://hch001.github.io/">Home</a>
+        </li>
+        <li>
+          <a href="/%E5%85%B6%E4%BB%96/">其他</a>
+        </li><li>
+          <a href="/%E5%90%8E%E7%AB%AF/">后端</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="https://github.com/hch001" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">SQL--Mysql(基础用法)</h1>
+  
+
+  <div class="post-date">
+    <time datetime="2020-05-15T17:07:40&#43;0800">May 15, 2020</time> <span class="readtime">&middot; 9 min read</span>
+  </div>
+
+  <div>
+  <h2 id="基本语句">基本语句</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">use dbName; <span style="color:#75715e">-- 更改当前数据库
+</span><span style="color:#75715e"></span>  
+<span style="color:#66d9ef">show</span> databases;
+<span style="color:#66d9ef">show</span> tables;
+<span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> tableName;
+<span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">view</span> viewName; <span style="color:#75715e">-- 查看创建的语句
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">show</span> columns <span style="color:#66d9ef">from</span> tableName;
+<span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> procedureName;
+
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">table</span> tableName;
+<span style="color:#66d9ef">drop</span> dbName;
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">procedure</span> precedureName;
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">INDEX</span> indexName <span style="color:#66d9ef">on</span> tableName
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">TRIGGER</span> triggerName; 
+
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">user</span> username;
+</code></pre></div><h3 id="创建语句">创建语句</h3>
+<ul>
+<li>mysql 在 8 之后支持 check 约束，只能用 enum 或者触发器，</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> Actor
+(
+    <span style="color:#75715e">-- 这里int之后的括号代表显示的最小长度，与存储的数据长度无关
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">-- 加上zerofill之后，显示的内容至少是10位，不足就按0填充
+</span><span style="color:#75715e"></span>    actor_id        int(<span style="color:#ae81ff">10</span>)         <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>    auto_increment zerofill, <span style="color:#75715e">-- 从1开始，使用 last_insert_id()返回值
+</span><span style="color:#75715e"></span>    film_id         char(<span style="color:#ae81ff">10</span>)    <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+    age             int         <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>    <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">20</span>,
+    sex             enum(<span style="color:#e6db74">&#39;男&#39;</span>,<span style="color:#e6db74">&#39;女&#39;</span>),  <span style="color:#75715e">-- 指定范围
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> (actor_id),
+    <span style="color:#66d9ef">constraint</span> actor_film_id <span style="color:#66d9ef">foreign</span> <span style="color:#66d9ef">key</span>(film_id) <span style="color:#66d9ef">references</span> Film(film_id), <span style="color:#75715e">-- 外键
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">constraint</span> age_chk <span style="color:#66d9ef">check</span>(age<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">and</span> age<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">150</span>) <span style="color:#75715e">-- 定义约束，前面的两个词可以省略
+</span><span style="color:#75715e"></span>)engine<span style="color:#f92672">=</span>(InnoDB <span style="color:#f92672">|</span> MyISAM); <span style="color:#75715e">-- 两种不同的数据库引擎
+</span><span style="color:#75715e">-- Innodb 是可靠的事务处理引擎，不支持全文本搜索，数据存储在内存，速度快
+</span><span style="color:#75715e">-- MyISAM 不支持事务处理，支持全文本搜索
+</span><span style="color:#75715e">-- 外键不能跨引擎
+</span></code></pre></div><h3 id="插入语句">插入语句</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">insert</span> (LOW_PRIORITY) (<span style="color:#66d9ef">ignore</span>) <span style="color:#66d9ef">into</span> tableName(column1,column2) <span style="color:#66d9ef">values</span>(value1,value2);
+<span style="color:#75715e">-- LOW_PRIORITY 降低 insert 语句的优先级 ，也适用于 update 和 delete
+</span><span style="color:#75715e">-- ignore 屏蔽错误信息，也可以用在 update
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 插入检索数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> tableName(column1,column2) 
+<span style="color:#66d9ef">select</span> column1,column2
+<span style="color:#66d9ef">where</span> ...;
+</code></pre></div><h3 id="alter-更新">Alter 更新</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">add</span> 
+(
+    column1 <span style="color:#66d9ef">type</span>,
+    column2 <span style="color:#66d9ef">type</span>
+); <span style="color:#75715e">-- 添加列
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">add</span>
+<span style="color:#66d9ef">constraint</span> fk_name <span style="color:#66d9ef">foreign</span> <span style="color:#66d9ef">key</span> (columnName) <span style="color:#66d9ef">references</span> tableName2(column2); <span style="color:#75715e">-- 添加外键
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">constraint</span> chk_name <span style="color:#66d9ef">check</span>( age <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> ); <span style="color:#75715e">-- 添加约束
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">column</span> columnName; <span style="color:#75715e">-- 删除
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">rename</span> tableName1 <span style="color:#66d9ef">to</span> tableName2; <span style="color:#75715e">-- 重命名
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">rename</span> <span style="color:#66d9ef">column</span> column1 <span style="color:#66d9ef">to</span> column2; <span style="color:#75715e">-- 重命名列
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">alter</span> columnName <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">100</span>; <span style="color:#75715e">-- 更改默认值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">modify</span> age int <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">20</span>; <span style="color:#75715e">-- 更改列属性
+</span></code></pre></div><h3 id="查询语句">查询语句</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">查询语句</span>
+<span style="color:#66d9ef">select</span> (<span style="color:#66d9ef">DISTINCT</span>  ) column1 , column2 <span style="color:#75715e">-- DISTINCT 去重
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">from</span> tableName
+<span style="color:#66d9ef">where</span> ...
+<span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> column1
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">by</span> column1 <span style="color:#66d9ef">DESC</span>, column2 <span style="color:#66d9ef">ASC</span> <span style="color:#75715e">-- 依次排序，先按column1降序，再按column2升序
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">LIMIT</span> n <span style="color:#f92672">|</span> (startLine,n); <span style="color:#75715e">-- 从第n行(n从0开始计算)开始统计，最多输出n个结果
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> column1 <span style="color:#66d9ef">ASC</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> column1 <span style="color:#75715e">-- ASC是默认的排序方式
+</span></code></pre></div><h3 id="更新和删除">更新和删除</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">update</span> (<span style="color:#66d9ef">ignore</span>) tableName
+<span style="color:#66d9ef">set</span> column1 <span style="color:#f92672">=</span> value1,
+    column2 <span style="color:#f92672">=</span> value2
+<span style="color:#66d9ef">where</span> ...;
+<span style="color:#75715e">-- ignore 关键字再更新多行数据时发生错误后不影响其他行更新
+</span><span style="color:#75715e">-- 不使用则在出错时放弃所有更新
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">from</span> tableName
+<span style="color:#66d9ef">where</span> ...;
+
+<span style="color:#75715e">-- 删除所有行可使用 truncate table 语句，实际上是删除表再重新建立表
+</span></code></pre></div><h3 id="索引">索引</h3>
+<p>普通索引不一定唯一，允许有空值<br>
+varchar、char 不需要指定length，text和BLOB需要指定 <strong>length</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">index</span> indexName <span style="color:#66d9ef">on</span> tableName;
+<span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">add</span> <span style="color:#66d9ef">index</span> indexName(columnName(<span style="color:#66d9ef">length</span>))
+
+<span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> tableName <span style="color:#66d9ef">add</span> <span style="color:#66d9ef">unique</span> indexName(columnName);
+
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> Test
+(
+    ....
+    (<span style="color:#66d9ef">unique</span>) <span style="color:#66d9ef">index</span> indexName(columnName)
+)
+</code></pre></div><h3 id="视图">视图</h3>
+<ul>
+<li>含有分组、联结、子查询、并、聚集函数(Min()、Count()、Sum()等)时视图r不能被更新</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">view</span> viewName <span style="color:#66d9ef">as</span> 
+...
+</code></pre></div><h3 id="存储过程">存储过程</h3>
+<ul>
+<li>无参的存储过程</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> procedure1() 
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">avg</span>(age) <span style="color:#66d9ef">as</span> age_avg
+    <span style="color:#66d9ef">from</span> actor;
+<span style="color:#66d9ef">end</span>;
+
+<span style="color:#66d9ef">call</span> procedure1(); <span style="color:#75715e">-- 使用
+</span></code></pre></div><ul>
+<li>有多个参数的存储过程</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 搜寻某个演员的所有电影评分，使用多个参数
+</span><span style="color:#75715e">-- 在命令行中可以先执行 delimiter //
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> ratingProc(<span style="color:#66d9ef">IN</span> name varchar(<span style="color:#ae81ff">50</span>), <span style="color:#66d9ef">OUT</span> rating float, <span style="color:#66d9ef">OUT</span> nums int)
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">avg</span>(film.rating),<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) 
+    <span style="color:#66d9ef">from</span> actor,perform,film
+    <span style="color:#66d9ef">where</span> (actor.name <span style="color:#f92672">=</span> name <span style="color:#66d9ef">and</span>
+        actor.actorID <span style="color:#f92672">=</span> perform.actorID 
+        <span style="color:#66d9ef">and</span> perform.filmID <span style="color:#f92672">=</span> film.filmID)
+    <span style="color:#66d9ef">into</span> rating ,nums;
+<span style="color:#66d9ef">end</span> <span style="color:#f92672">//</span>  <span style="color:#75715e">-- // 在非命令行中可以不需要
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 使用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">call</span> ratingProc(<span style="color:#e6db74">&#39;张涵予&#39;</span>, <span style="color:#f92672">@</span>rating_avg, <span style="color:#f92672">@</span>nums) <span style="color:#f92672">//</span>
+<span style="color:#75715e">-- 输出
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@</span>rating_avg, <span style="color:#f92672">@</span>nums <span style="color:#f92672">//</span> 
+</code></pre></div><ul>
+<li>复杂智能函数</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 创建一个复杂一点的函数，多了一个可选项，是否忽略2010年前的数据
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> ratingProc(
+    <span style="color:#66d9ef">IN</span>  name        varchar(<span style="color:#ae81ff">50</span>),
+    <span style="color:#66d9ef">IN</span>  ifIgnore      boolean,
+    <span style="color:#66d9ef">OUT</span> rating      float,
+    <span style="color:#66d9ef">OUT</span> nums        int
+) <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;calculating the average rating of all movies the actor played, optionally ignoring those released before 2010. &#39;</span>
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#75715e">-- Declare local variables for rating, nums
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">declare</span> rating_tmp float;
+    <span style="color:#66d9ef">declare</span> nums_tmp int;
+
+    <span style="color:#75715e">-- ignore ?
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">IF</span> ifIgnore <span style="color:#66d9ef">THEN</span>
+        <span style="color:#75715e">-- 和上面一样
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">avg</span>(film.rating),<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) 
+        <span style="color:#66d9ef">from</span> actor,perform,film
+        <span style="color:#66d9ef">where</span> (
+            film.releaseDate <span style="color:#f92672">&gt;</span><span style="color:#ae81ff">2010</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span> 
+            <span style="color:#66d9ef">and</span> actor.name <span style="color:#f92672">=</span> name 
+            <span style="color:#66d9ef">and</span> actor.actorID <span style="color:#f92672">=</span> perform.actorID 
+            <span style="color:#66d9ef">and</span> perform.filmID <span style="color:#f92672">=</span> film.filmID 
+        )
+        <span style="color:#66d9ef">into</span> rating_tmp, nums_tmp;
+    
+    <span style="color:#66d9ef">ELSE</span> 
+        <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">avg</span>(film.rating),<span style="color:#66d9ef">count</span>(<span style="color:#f92672">*</span>) 
+        <span style="color:#66d9ef">from</span> actor,perform,film
+        <span style="color:#66d9ef">where</span> (
+            actor.name <span style="color:#f92672">=</span> name 
+            <span style="color:#66d9ef">and</span> actor.actorID <span style="color:#f92672">=</span> perform.actorID 
+            <span style="color:#66d9ef">and</span> perform.filmID <span style="color:#f92672">=</span> film.filmID 
+        )
+        <span style="color:#66d9ef">into</span> rating_tmp, nums_tmp;
+    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+
+    <span style="color:#66d9ef">select</span> rating_tmp,nums_tmp <span style="color:#66d9ef">into</span> rating,nums;
+<span style="color:#66d9ef">end</span>;
+
+<span style="color:#75715e">-- 调用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">call</span> ratingProc(<span style="color:#e6db74">&#39;张涵予&#39;</span>,<span style="color:#66d9ef">false</span>,<span style="color:#f92672">@</span>rating,<span style="color:#f92672">@</span>num); <span style="color:#75715e">-- 使用 0 也能代表 false
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@</span>rating,<span style="color:#f92672">@</span>num;
+
+</code></pre></div><h3 id="游标">游标</h3>
+<ul>
+<li>mysql 的游标仅用于存储过程和函数</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> procedure1()
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#75715e">-- 声明变量
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">declare</span> done boolean <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">declare</span> id varchar(<span style="color:#ae81ff">10</span>);
+    <span style="color:#66d9ef">declare</span> n varchar(<span style="color:#ae81ff">50</span>);
+    <span style="color:#66d9ef">declare</span> b date;
+
+    <span style="color:#75715e">-- 声明一个游标
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">declare</span> cursor1 <span style="color:#66d9ef">cursor</span>
+    <span style="color:#66d9ef">for</span>
+    <span style="color:#66d9ef">select</span> actorID,name,birthday <span style="color:#66d9ef">from</span> actor <span style="color:#66d9ef">where</span> birthday <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#39;1990-01-01&#39;</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">100</span>;
+
+    <span style="color:#75715e">-- 如果没有取到数据设置 done = 1
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">declare</span> <span style="color:#66d9ef">continue</span> <span style="color:#66d9ef">handler</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">found</span> <span style="color:#66d9ef">set</span> done <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#75715e">-- open the cursor
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">open</span> cursor1;
+    
+    <span style="color:#75715e">-- 创建一个输出的表
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> young 
+    (
+        ID varchar(<span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+        name varchar(<span style="color:#ae81ff">50</span>) ,
+        birthday date <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+        <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>(ID)
+    );
+
+    <span style="color:#75715e">-- 循环插入表
+</span><span style="color:#75715e"></span>    myloop:loop 
+        <span style="color:#66d9ef">fetch</span> cursor1 <span style="color:#66d9ef">into</span> id,n,b;  
+
+        <span style="color:#66d9ef">if</span> done <span style="color:#66d9ef">THEN</span>
+            LEAVE myloop;
+        <span style="color:#66d9ef">end</span> <span style="color:#66d9ef">if</span>;
+
+        <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> young <span style="color:#66d9ef">values</span>(id,n,b);
+    <span style="color:#66d9ef">end</span> loop;
+
+    <span style="color:#75715e">-- 关闭游标
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">close</span> cursor1;
+
+<span style="color:#66d9ef">end</span>;
+
+</code></pre></div><h3 id="循环">循环</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- while 循环
+</span><span style="color:#75715e"></span>while condition <span style="color:#66d9ef">do</span>
+    ...
+<span style="color:#66d9ef">end</span> while;
+
+
+
+<span style="color:#75715e">-- repeat 循环
+</span><span style="color:#75715e"></span>repeat 
+    ...
+<span style="color:#66d9ef">until</span> condition <span style="color:#66d9ef">end</span> repeat;
+
+
+
+<span style="color:#75715e">-- loop 循环 
+</span><span style="color:#75715e"></span>loopName : loop
+    ...
+    leave loopName;
+<span style="color:#66d9ef">end</span> loopName;
+</code></pre></div><h3 id="触发器">触发器</h3>
+<ul>
+<li><strong>只有表支持触发器，视图不支持</strong></li>
+<li>每个表最多支持<strong>六个</strong>触发器，INSERT，UPDATE，DELETE的之前和之后</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 每添加一个就输出提示
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">trigger</span> newComment <span style="color:#66d9ef">after</span> <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">on</span> Actor
+<span style="color:#66d9ef">for</span> <span style="color:#66d9ef">each</span> <span style="color:#66d9ef">row</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">`</span>Commment added<span style="color:#f92672">!`</span>;
+</code></pre></div><ul>
+<li>NEW 和 OLD 关键字
+<ul>
+<li>NEW 指 insert 和 update 中的临时数据，使用 <strong>before</strong> 可以更改NEW中的信息，<strong>after</strong>只读</li>
+<li>OLD 指 delete 和 update 执行<strong>之前或者之后</strong>（即使执行了delete和UPDATE 仍然能访问OLD），将要被处理的旧数据，只读，不能被更新。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- insert NEW
+</span><span style="color:#75715e">-- 在输入之前进行检查
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">trigger</span> parseAge <span style="color:#66d9ef">before</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">on</span> test
+<span style="color:#66d9ef">for</span> <span style="color:#66d9ef">EACH</span> <span style="color:#66d9ef">Row</span> 
+<span style="color:#66d9ef">BEGIN</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">NEW</span>.age <span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> 
+        <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">NEW</span>.age <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    elseif <span style="color:#66d9ef">NEW</span>.age <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">200</span> <span style="color:#66d9ef">THEN</span>
+        <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">NEW</span>.age <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">IF</span>;
+<span style="color:#66d9ef">end</span>;
+
+
+<span style="color:#75715e">-- delete
+</span><span style="color:#75715e">-- 实现回收站的功能
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">trigger</span> deleteRows <span style="color:#66d9ef">after</span> <span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">on</span> test
+<span style="color:#66d9ef">for</span> <span style="color:#66d9ef">each</span> <span style="color:#66d9ef">row</span>
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> trash <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">OLD</span>.id,<span style="color:#66d9ef">OLD</span>.age,<span style="color:#66d9ef">OLD</span>.name);
+<span style="color:#66d9ef">end</span>;
+
+<span style="color:#75715e">-- update
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">trigger</span> parseRow <span style="color:#66d9ef">before</span> <span style="color:#66d9ef">UPDATE</span> <span style="color:#66d9ef">on</span> test
+<span style="color:#66d9ef">for</span> <span style="color:#66d9ef">each</span> <span style="color:#66d9ef">row</span>
+<span style="color:#66d9ef">begin</span>
+    <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> trash <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">OLD</span>.id,<span style="color:#66d9ef">OLD</span>.age,<span style="color:#66d9ef">OLD</span>.name);
+    <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">NEW</span>.name <span style="color:#f92672">=</span> <span style="color:#66d9ef">Upper</span>(<span style="color:#66d9ef">NEW</span>.name)
+<span style="color:#66d9ef">end</span>;
+</code></pre></div></li>
+</ul>
+<h3 id="导出csv">导出csv</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> film
+<span style="color:#66d9ef">into</span> outfile <span style="color:#e6db74">&#34;E:/film.csv&#34;</span>
+fields terminated <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;,&#39;</span>; <span style="color:#75715e">-- 按逗号分割
+</span></code></pre></div><h3 id="事务">事务</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">set</span> autocomit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">start</span> <span style="color:#66d9ef">transaction</span>;s
+...
+savepoint point1; <span style="color:#75715e">-- 在事务里创建，回退事务中的部分语句
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">rollback</span> <span style="color:#66d9ef">to</span> point1;
+...
+<span style="color:#66d9ef">rollback</span>; <span style="color:#75715e">-- 不能回退 create 和 drop 语句
+</span><span style="color:#75715e"></span>
+...
+<span style="color:#66d9ef">commit</span>;
+
+</code></pre></div><h3 id="用户角色和权限">用户、角色和权限</h3>
+<ul>
+<li>用户</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">use mysql; 
+<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">user</span>; <span style="color:#75715e">-- 获取用户名
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">user</span> <span style="color:#e6db74">&#39;userName&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;password&#39;</span>; <span style="color:#75715e">-- 散列口令(加密)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">user</span> user1<span style="color:#f92672">@</span>localhost Identified <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;password&#39;</span>;
+<span style="color:#66d9ef">set</span> password (<span style="color:#66d9ef">for</span> userName) <span style="color:#f92672">=</span> Password(<span style="color:#e6db74">&#39;newPassword&#39;</span>);
+
+<span style="color:#66d9ef">rename</span> <span style="color:#66d9ef">USER</span> username1 <span style="color:#66d9ef">to</span> username2; <span style="color:#75715e">-- 重命名
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">show</span> grants <span style="color:#66d9ef">for</span> username; <span style="color:#75715e">-- 查看权限
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">select</span>,<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">on</span> dbName.tableName <span style="color:#66d9ef">to</span> userName;
+<span style="color:#66d9ef">revoke</span> <span style="color:#66d9ef">select</span>,<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">on</span> dbName.tableName <span style="color:#66d9ef">from</span> userName; <span style="color:#75715e">-- 回收权限
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">grant</span> roleName <span style="color:#66d9ef">to</span> userName; <span style="color:#75715e">-- 创建完角色后需要激活才能生效
+</span><span style="color:#75715e"></span>
+</code></pre></div><ul>
+<li>角色</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">role</span> roleName;
+<span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">role</span> roleName;
+<span style="color:#66d9ef">set</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">role</span>; <span style="color:#75715e">-- 设置默认角色
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">select</span>,<span style="color:#66d9ef">update</span> <span style="color:#66d9ef">on</span> dbName.tableName <span style="color:#66d9ef">to</span> roleName; <span style="color:#75715e">-- 分配权限
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">all</span> <span style="color:#66d9ef">privileges</span> <span style="color:#66d9ef">on</span> dbName.tableName <span style="color:#66d9ef">to</span> roleName;
+
+<span style="color:#66d9ef">revoke</span> ... <span style="color:#75715e">-- 回收权限
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">grant</span> role1,role2 <span style="color:#66d9ef">to</span> userName; <span style="color:#75715e">-- 分配角色
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">CURRENT_ROLE</span>(); <span style="color:#75715e">-- 激活当前角色
+</span></code></pre></div><hr>
+<h3 id="匹配">匹配</h3>
+<ul>
+<li>IN 操作符</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">where</span> column1 <span style="color:#66d9ef">IN</span> (<span style="color:#ae81ff">1002</span>,<span style="color:#ae81ff">1003</span>);
+</code></pre></div><ul>
+<li>NOT IN</li>
+<li>LIKE (wildcard) 通配符
+<ul>
+<li>% 表示任意字符出现任意次数</li>
+<li>_ 匹配单个字符</li>
+</ul>
+</li>
+<li>正则表达式
+<ul>
+<li>跟其它语言的支持正则表达式类似</li>
+<li>默认忽略大小写</li>
+<li>^ $ 文本的开头和结尾</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 &lsquo;\n&rsquo; 或 &lsquo;\r&rsquo; 之后的位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 &lsquo;\n&rsquo; 或 &lsquo;\r&rsquo; 之前的位置。</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">匹配除 &ldquo;\n&rdquo; 之外的任何单个字符。要匹配包括 &lsquo;\n&rsquo; 在内的任何字符，请使用像 &lsquo;[.\n]&rsquo; 的模式。</td>
+</tr>
+<tr>
+<td style="text-align:center">[&hellip;]</td>
+<td style="text-align:center">字符集合。匹配所包含的任意一个字符。例如， &lsquo;[abc]&rsquo; 可以匹配 &ldquo;plain&rdquo; 中的 &lsquo;a&rsquo;。</td>
+</tr>
+<tr>
+<td style="text-align:center">[^&hellip;]</td>
+<td style="text-align:center">负值字符集合。匹配未包含的任意字符。例如， &lsquo;[^abc]&rsquo; 可以匹配 &ldquo;plain&rdquo; 中的&rsquo;p'。</td>
+</tr>
+<tr>
+<td style="text-align:center">p1|p2|p3</td>
+<td style="text-align:center">匹配 p1 或 p2 或 p3。例如，&lsquo;z</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">匹配前面的子表达式零次或多次。例如，zo* 能匹配 &ldquo;z&rdquo; 以及 &ldquo;zoo&rdquo;。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">匹配前面的子表达式一次或多次。例如，&lsquo;zo+&rsquo; 能匹配 &ldquo;zo&rdquo; 以及 &ldquo;zoo&rdquo;，但不能匹配 &ldquo;z&rdquo;。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:center">n 是一个非负整数。匹配确定的 n 次。例如，&lsquo;o{2}&rsquo; 不能匹配 &ldquo;Bob&rdquo; 中的 &lsquo;o&rsquo;，但是能匹配 &ldquo;food&rdquo; 中的两个 o。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:center">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="拼接">拼接</h3>
+<ul>
+<li>使用 Concat</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> Concat(<span style="color:#66d9ef">trim</span>(title),<span style="color:#e6db74">&#39;(&#39;</span>,releaseDate,<span style="color:#e6db74">&#39;)&#39;</span>) <span style="color:#66d9ef">as</span> flim <span style="color:#75715e">-- trim 去两侧空格还有rtrim 和 ltrim
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">from</span> Film
+<span style="color:#66d9ef">where</span> rating<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">8</span>.<span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> film                                    <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------------------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">苍穹之法芙娜：天堂和地球</span>(<span style="color:#ae81ff">2010</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span><span style="color:#f92672">-</span><span style="color:#ae81ff">25</span>)    <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">巴菲的奇妙命运</span>(<span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span><span style="color:#f92672">-</span><span style="color:#ae81ff">14</span>)              <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">我为喜剧狂</span> <span style="color:#960050;background-color:#1e0010">第六季</span>(<span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span><span style="color:#f92672">-</span><span style="color:#ae81ff">12</span>)           <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">非公认战队秋叶原连者</span>(<span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>)        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>                                    <span style="color:#f92672">|</span>   <span style="color:#75715e">-- 当拼接需要的元素存在缺失的话就会显示null
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">大唐马屁精</span>(<span style="color:#ae81ff">2006</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>)                  <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">赫尔克里的丰功伟绩</span>(<span style="color:#ae81ff">2013</span><span style="color:#f92672">-</span><span style="color:#ae81ff">11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span>)          <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">朽木</span> <span style="color:#960050;background-color:#1e0010">第三季</span>(<span style="color:#ae81ff">2006</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span><span style="color:#f92672">-</span><span style="color:#ae81ff">11</span>)                 <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">护士当家</span> <span style="color:#960050;background-color:#1e0010">第四季</span>(<span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span>)             <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">如果还有明天</span> <span style="color:#960050;background-color:#1e0010">第三季</span>(<span style="color:#ae81ff">2012</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">08</span>)         <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-----------------------------------------+
+</span></code></pre></div><ul>
+<li>在第一行之后加上 as  可以使用别名(alias)</li>
+</ul>
+<h3 id="一些方法">一些方法</h3>
+<ul>
+<li>soundex() 发音类似匹配</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> foreignName 
+<span style="color:#66d9ef">from</span> actor 
+<span style="color:#66d9ef">where</span> soundex(foreignName) <span style="color:#f92672">=</span> soundex(<span style="color:#e6db74">&#39;Lie&#39;</span>) 
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>;
+<span style="color:#75715e">-- 发音类似 Lie 的数据
+</span><span style="color:#75715e">-- 输出
+</span><span style="color:#75715e"></span><span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> foreignName <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Lieh Lo     <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lila Lee    <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lily Ho     <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lala Wu     <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lei Hao     <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lilo        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lio         <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lulu        <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Li<span style="color:#f92672">-</span>li Li    <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> Lu Yao      <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">-------------+
+</span></code></pre></div><ul>
+<li>Date() 将不同的 DateTime 转化为 Date，Month() Year() 返回月份和年份</li>
+<li>abs cos exp mod pi sqrt</li>
+<li>avg() count() max() min() sum()  # 括号内部可以加上 DISTINCT 关键字</li>
+</ul>
+<h3 id="子查询">子查询</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- in 嵌套
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span>
+<span style="color:#66d9ef">where</span> userID <span style="color:#66d9ef">in</span>
+(
+    <span style="color:#66d9ef">select</span> userID 
+    <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">user</span>
+    <span style="color:#66d9ef">where</span> nickName<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>;
+);
+
+<span style="color:#75715e">-- 关联查询
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> film.title,actor.Name
+<span style="color:#66d9ef">from</span> actor,film, perform
+<span style="color:#66d9ef">where</span> actor.actorID <span style="color:#f92672">=</span> perform.actorID <span style="color:#66d9ef">and</span> perform.filmID <span style="color:#f92672">=</span> film.filmID
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>;
+</code></pre></div><h3 id="联结">联结</h3>
+<ul>
+<li>使用别名进行自联结</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> content
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">as</span> c1,<span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">as</span> c2
+<span style="color:#66d9ef">where</span> c1.userID <span style="color:#f92672">=</span> c2.userID <span style="color:#66d9ef">and</span> c1.userID <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;fsadfdf2324&#39;</span>;
+<span style="color:#75715e">-- 搜索表中同一个用户的评论 
+</span></code></pre></div><ul>
+<li>内连接</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 匹配的所有行
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">join</span> <span style="color:#66d9ef">user</span>
+<span style="color:#66d9ef">on</span> <span style="color:#66d9ef">comment</span>.userID <span style="color:#f92672">=</span> <span style="color:#66d9ef">user</span>.userID ;
+<span style="color:#75715e">-- 不匹配的则不输出
+</span></code></pre></div><ul>
+<li>左外连接、右外连接和全连接 (outer 关键字可省略)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">outer</span> <span style="color:#66d9ef">join</span>  <span style="color:#66d9ef">user</span>
+<span style="color:#66d9ef">on</span> <span style="color:#66d9ef">comment</span>.userID <span style="color:#f92672">=</span> <span style="color:#66d9ef">user</span>.userID ;
+<span style="color:#75715e">-- 以左侧为基准，右侧不匹配的记为null
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">outer</span> <span style="color:#66d9ef">join</span>  <span style="color:#66d9ef">user</span>
+<span style="color:#66d9ef">on</span> <span style="color:#66d9ef">comment</span>.userID <span style="color:#f92672">=</span> <span style="color:#66d9ef">user</span>.userID ;
+<span style="color:#75715e">-- 以右侧为基准，左侧不匹配的记为null
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span>
+<span style="color:#66d9ef">from</span> <span style="color:#66d9ef">comment</span> <span style="color:#66d9ef">full</span> <span style="color:#66d9ef">outer</span> <span style="color:#66d9ef">join</span>  <span style="color:#66d9ef">user</span>
+<span style="color:#66d9ef">on</span> <span style="color:#66d9ef">comment</span>.userID <span style="color:#f92672">=</span> <span style="color:#66d9ef">user</span>.userID ;
+<span style="color:#75715e">-- 输出所有行，不匹配的都记为null
+</span><span style="color:#75715e"></span>
+</code></pre></div><ul>
+<li>union</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">distinct</span> Name,birthday
+<span style="color:#66d9ef">from</span>  actor,film,perform
+<span style="color:#66d9ef">where</span> actor.actorID <span style="color:#f92672">=</span> perform.actorID <span style="color:#66d9ef">and</span> perform.filmID <span style="color:#f92672">=</span> film.filmID
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>) <span style="color:#75715e">-- 第一条select中的行数限制在10条
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">union</span> <span style="color:#66d9ef">all</span> <span style="color:#75715e">-- all 代表不去除上下两个表中的重复行
+</span><span style="color:#75715e"></span>(<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">distinct</span> Name,birthday
+<span style="color:#66d9ef">from</span> director,film,direct
+<span style="color:#66d9ef">where</span> director.directorID <span style="color:#f92672">=</span> direct.directorID <span style="color:#66d9ef">and</span> direct.filmID <span style="color:#f92672">=</span> film.filmID 
+<span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">10</span>) <span style="color:#75715e">-- 第二条限制在10条
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">20</span> ; <span style="color:#75715e">-- 合并的结果限制在20条
+</span><span style="color:#75715e">-- 如果限制为15，那么第一条select语句的结果输出10条，第二条select语句输出5条
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 只使用第一条select语句
+</span><span style="color:#75715e"></span><span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Name             <span style="color:#f92672">|</span> birthday   <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">朱丽娅·斯蒂尔斯</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1981</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">28</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">乔纳森·格罗夫</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1985</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">26</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">内森·菲利安</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1971</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">27</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">吉姆·帕森斯</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1973</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">艾德·奥布莱恩</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1968</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">马修·古迪</span>       <span style="color:#f92672">|</span> <span style="color:#ae81ff">1978</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">艾丽森·汉妮根</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1974</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">迈克尔·法斯宾德</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1977</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">亚历克·鲍德温</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1958</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">莉顿·梅斯特</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1986</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 只使用第二条select语句
+</span><span style="color:#75715e"></span><span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Name             <span style="color:#f92672">|</span> birthday   <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">蕾克·贝尔</span>       <span style="color:#f92672">|</span> <span style="color:#ae81ff">1979</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">马修·布罗德里克</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1962</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">21</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">扎克·布拉夫</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1975</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">詹姆斯·肯恩</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1940</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">26</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">罗伯特·卡莱尔</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1961</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">14</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">克拉克·格雷格</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1962</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">文森特·加洛</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1961</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">11</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">和田诚</span>           <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>       <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">彭浩翔</span>           <span style="color:#f92672">|</span> <span style="color:#ae81ff">1973</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span><span style="color:#f92672">-</span><span style="color:#ae81ff">22</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">杰伊·钱德拉萨卡</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1968</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">-- 使用union
+</span><span style="color:#75715e"></span><span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> Name             <span style="color:#f92672">|</span> birthday   <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">朱丽娅·斯蒂尔斯</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1981</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">28</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">乔纳森·格罗夫</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1985</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">26</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">内森·菲利安</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1971</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">27</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">吉姆·帕森斯</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1973</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">艾德·奥布莱恩</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1968</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">马修·古迪</span>       <span style="color:#f92672">|</span> <span style="color:#ae81ff">1978</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">艾丽森·汉妮根</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1974</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">迈克尔·法斯宾德</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1977</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">亚历克·鲍德温</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1958</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">莉顿·梅斯特</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1986</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">蕾克·贝尔</span>       <span style="color:#f92672">|</span> <span style="color:#ae81ff">1979</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">马修·布罗德里克</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1962</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">21</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">扎克·布拉夫</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1975</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">06</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">詹姆斯·肯恩</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1940</span><span style="color:#f92672">-</span><span style="color:#ae81ff">03</span><span style="color:#f92672">-</span><span style="color:#ae81ff">26</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">罗伯特·卡莱尔</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1961</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">14</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">克拉克·格雷格</span>   <span style="color:#f92672">|</span> <span style="color:#ae81ff">1962</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">文森特·加洛</span>     <span style="color:#f92672">|</span> <span style="color:#ae81ff">1961</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">11</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">和田诚</span>           <span style="color:#f92672">|</span> <span style="color:#66d9ef">NULL</span>       <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">彭浩翔</span>           <span style="color:#f92672">|</span> <span style="color:#ae81ff">1973</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span><span style="color:#f92672">-</span><span style="color:#ae81ff">22</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">|</span> <span style="color:#960050;background-color:#1e0010">杰伊·钱德拉萨卡</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">1968</span><span style="color:#f92672">-</span><span style="color:#ae81ff">04</span><span style="color:#f92672">-</span><span style="color:#ae81ff">09</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------------------+------------+
+</span></code></pre></div><h3 id="使用全文本搜索">使用全文本搜索</h3>
+<ul>
+<li>mysql 支持两种数据库引擎 MyISAM 和 Innodb，只有前者支持全文本搜索</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> notes
+(
+    note_id     int     <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> auto_increment, <span style="color:#75715e">-- 从1开始
+</span><span style="color:#75715e"></span>    note_text   text    <span style="color:#66d9ef">null</span>,
+    <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>(note_id),
+    fulltext(note_text)   <span style="color:#75715e">-- 引擎会创建索引
+</span><span style="color:#75715e"></span>) engine<span style="color:#f92672">=</span>MyISAM;
+</code></pre></div><ul>
+<li>应该在导入数据完毕后再定义为 fulltext，提高效率</li>
+<li>使用 Match() 和 Against() 进行搜索</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> note_text
+<span style="color:#66d9ef">from</span> notes
+<span style="color:#66d9ef">where</span> <span style="color:#66d9ef">Match</span>(note_text) Against(<span style="color:#e6db74">&#39;rabbit&#39;</span>);
+</code></pre></div><ul>
+<li>与使用正则表达式的区别在于这个返回的结果是进行排序过的，词出现的频率，出现的位置等</li>
+</ul>
+<hr>
+<h2 id="进阶">进阶</h2>
+<h3 id="锁机制">锁机制</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/leedaily/p/8378779.html">Mysql中的锁机制</a></li>
+</ul>
+<hr>
+<h2 id="性能">性能</h2>
+<ul>
+<li>使用全文搜索 full text 而不是 like</li>
+<li>使用存储过程</li>
+<li>先导入数据在创建索引</li>
+<li><a href="https://blog.csdn.net/zhushuai1221/article/details/51740846?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1.nonecase">mysql优化</a></li>
+</ul>
+<hr>
+<h2 id="一些注意的点">一些注意的点</h2>
+<ul>
+<li>mysql 匹配时不区分大小写</li>
+<li>判断空值用 is null</li>
+<li>表名和保留字相同时需要用反引号</li>
+<li>'&rsquo; 空串和 null 是不同的，not null 可以指定空串</li>
+<li>在命令行中使用 <code>delimiter 新的分隔符</code> 来指定新的分隔符（针对出现多个&quot;;&ldquo;的情况）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#75715e">-- 输入 delimiter //
+</span><span style="color:#75715e">-- // 成为新的分隔符
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">procedure</span> procedure1()
+<span style="color:#66d9ef">begin</span>:
+    <span style="color:#66d9ef">select</span> <span style="color:#66d9ef">avg</span>(age) <span style="color:#66d9ef">as</span> age_avg
+    <span style="color:#66d9ef">from</span> actor ;   <span style="color:#75715e">-- 命令行中这里不立即执行
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">end</span> <span style="color:#f92672">//</span>  <span style="color:#75715e">-- 检测到 // 开始执行语句
+</span></code></pre></div><ul>
+<li>使用 auto_increment 时，需要插入数据则该字段可以设置为 null(自动添加) 或者 自己指定值。<strong>自动添加的值为上一次插入的值加1，上一次如果是自己指定的值也一样</strong></li>
+<li>= 与 := 前者是判等后者是赋值</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>num <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>num <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; 
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">@</span>num;
+
+<span style="color:#f92672">+</span><span style="color:#75715e">------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span> <span style="color:#f92672">@</span>num <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------+
+</span><span style="color:#75715e"></span><span style="color:#f92672">|</span>    <span style="color:#ae81ff">2</span> <span style="color:#f92672">|</span>
+<span style="color:#f92672">+</span><span style="color:#75715e">------+
+</span></code></pre></div><ul>
+<li>使用 jdbc 时去除警告的方法</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Connection connection <span style="color:#f92672">=</span> DriverManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getConnection</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jdbc:mysql://localhost:3306/db2?useSSL=false&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;root&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// 加入?useSSL=false
+</span></code></pre></div><ul>
+<li>MYSQL表数据导到文件时出现The MySQL server is running with the &ndash;secure-file-priv option</li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/fengqing5578/article/details/88839702">https://blog.csdn.net/fengqing5578/article/details/88839702</a></p>
+</blockquote>
+
+  </div>
+
+  
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+     data-text="SQL--Mysql(基础用法)"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+     data-text="SQL--Mysql(基础用法)"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+     data-text="SQL--Mysql(基础用法)"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+     data-text="SQL--Mysql(基础用法)"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://hch001.github.io/%E5%85%B6%E4%BB%96/sql-mysql/"
+     data-text="SQL--Mysql(基础用法)"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; Huang Chenhan 2021
+
+      
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>
