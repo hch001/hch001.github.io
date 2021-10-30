@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Qt--信号和槽 | Hch001</title><meta name="author" content="Huang Chenhan"><meta name="copyright" content="Huang Chenhan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="槽函数的修饰符，子组件如何与上级控件或者更上级的控件建立连接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt--信号和槽">
+<meta property="og:url" content="http://example.com/2021/07/23/qt/git--%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD/index.html">
+<meta property="og:site_name" content="Hch001">
+<meta property="og:description" content="槽函数的修饰符，子组件如何与上级控件或者更上级的控件建立连接">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/qt.jpg">
+<meta property="article:published_time" content="2021-07-23T01:58:50.000Z">
+<meta property="article:modified_time" content="2021-07-28T18:20:37.262Z">
+<meta property="article:author" content="Huang Chenhan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/qt.jpg"><link rel="shortcut icon" href="/img/profile.jpg"><link rel="canonical" href="http://example.com/2021/07/23/qt/git--%E4%BF%A1%E5%8F%B7%E5%92%8C%E6%A7%BD/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Qt--信号和槽',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-29 02:20:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/my.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/macWhite.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/profile.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">35</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hch001</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Qt--信号和槽</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-07-23T01:58:50.000Z" title="Created 2021-07-23 09:58:50">2021-07-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-07-28T18:20:37.262Z" title="Updated 2021-07-29 02:20:37">2021-07-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Qt/">Qt</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word count:</span><span class="word-count">569</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading time:</span><span>2min</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Qt--信号和槽"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="与上级控件通信"><a href="#与上级控件通信" class="headerlink" title="与上级控件通信"></a>与上级控件通信</h2><p>首先qt中有这样一个结构的界面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// []中表示控件的类型，其右侧代表的是变量名，ParentWidget和SubWidget都是自定义的组件</span><br><span class="line">[QWidget*]ancestor --</span><br><span class="line">                    |-- [ParentWidget*]parentWidget --</span><br><span class="line">                    |                                |-- [SubWidget*]subWidget</span><br><span class="line">                    |-- [QWidget*]widget1</span><br><span class="line">                    |-- [QWidget*]widget2</span><br></pre></td></tr></table></figure>
+<p>我们希望subWdget和ancestor可以直接建立连接<br>假设ancestor中的存在着这样的槽函数    </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ancestorSlot</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>假设subWidget中有这样的信号      </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subWidgetSignal</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>我们可以通过通过对比上级控件的名称找到目标控件来建立连接，建立连接的方式如下:   </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下代码是在subWidget的构造函数里的</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 应该使用一个参数来传递需要连接的节点名</span></span><br><span class="line">    <span class="function">QString <span class="title">targetName</span><span class="params">(<span class="string">&quot;ancestorName&quot;</span>)</span></span>;</span><br><span class="line">    QWidget* target = <span class="keyword">this</span>;</span><br><span class="line">    <span class="comment">// 找到目标节点</span></span><br><span class="line">    <span class="keyword">while</span>(target!=<span class="literal">nullptr</span>&amp;&amp;target-&gt;<span class="built_in">objectName</span>()!=rootName)</span><br><span class="line">        target = target-&gt;<span class="built_in">parentWidget</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 建立连接</span></span><br><span class="line">    <span class="keyword">if</span>(target!=<span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">connect</span>(<span class="keyword">this</span>,<span class="built_in">SIGNAL</span>(<span class="built_in">subWidgetSignal</span>()),target,<span class="built_in">SIGNAL</span>(<span class="built_in">ancestorSlot</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>也可以通过传入一个目标的指针来实现</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 直接建立连接，这里的target是通过构造函数的参数传进来的</span></span><br><span class="line">    <span class="keyword">if</span>(target!=<span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">connect</span>(<span class="keyword">this</span>,<span class="built_in">SIGNAL</span>(<span class="built_in">subWidgetSignal</span>()),root,<span class="built_in">SIGNAL</span>(<span class="built_in">ancestorSlot</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>使用第二种方法时有可能会遇到循环依赖问题。<br>以下是两个类的头文件定义（部分代码） </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ParentWidget.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;SubWidget&quot;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ParentWidget</span> :</span> <span class="keyword">public</span> QWidget&#123;</span><br><span class="line">    SubWidget* subWidget;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// SubWidget.h</span></span><br><span class="line"><span class="meta">#incldue <span class="meta-string">&quot;ParentWidget&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubWidget</span> :</span> <span class="keyword">public</span> QWidget&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">SubWidget</span><span class="params">(ParentWidget* target,QWidget* parent=<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面的两个类的头文件中都引用了对方的文件，形成了循环引用，解决方式如下：   </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// parentWidget.h</span></span><br><span class="line"><span class="comment">/* 通过先定义类（占位用的），指针大小只与你的操作系统的位数、编译器有关，</span></span><br><span class="line"><span class="comment">   这里的编译器会预先分配一个指针，源文件中再引入头文件即可 */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubWidget</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ParentWidget</span> :</span> <span class="keyword">public</span> QWidget&#123;</span><br><span class="line">    SubWidget* subWidget;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// SubWidget.h</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ParentWidget</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubWidget</span> :</span> <span class="keyword">public</span> QWidget&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">SubWidget</span><span class="params">(ParentWidget* target,QWidget* parent=<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后在源文件中再引入即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ParentWidget.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;SubWidget.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// SubWidget.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ParentWidget.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="槽函数的修饰符"><a href="#槽函数的修饰符" class="headerlink" title="槽函数的修饰符"></a>槽函数的修饰符</h2><p>槽函数的修饰符与普通的修饰符一样，在类外部使用connect连接槽函数时需要保证外部有访问的权限，改成public，类内部调用内部的槽函数则可以使用private和protected。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/qt.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/25/qt/qt--%E6%8A%A5%E9%94%99%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="/img/qt.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Qt--报错合集</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/05/%E8%8D%89%E7%A8%BF/mac%E8%83%BDping%E9%80%9Agithub%E4%BD%86%E7%BD%91%E9%A1%B5%E5%8A%A0%E8%BD%BD%E4%B8%8D%E4%BA%86/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">mac能ping通github但网页加载不了</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/profile.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Huang Chenhan</div><div class="author-info__description">大脑不够用了，希望这个博客能当个外存吧</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">35</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">13</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hch001"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hch001" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/13959582448@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E4%B8%8A%E7%BA%A7%E6%8E%A7%E4%BB%B6%E9%80%9A%E4%BF%A1"><span class="toc-number">1.</span> <span class="toc-text">与上级控件通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">1.1.</span> <span class="toc-text">方法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">1.2.</span> <span class="toc-text">方法二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-number">1.3.</span> <span class="toc-text">循环依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A7%BD%E5%87%BD%E6%95%B0%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text">槽函数的修饰符</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: none"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Huang Chenhan</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="/js/my.js"></script><script src="https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/mouse_snow.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
